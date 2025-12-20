@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { Link, NavLink } from "react-router";
-import Recentbills from "./Recentbills";
+import Recentbills from "./FeaturedLessons";
 import useTitle from "../Components/usetTitle";
 import WhyChooseUs from "../Components/WhyChooseUs";
 import HowItWorks from "../Components/HowItWorks";
+import FeaturedLessons from "./FeaturedLessons";
 
-const RecentbillsPromise = fetch(
-  "https://utility-bill-sys-server.vercel.app/recent-bills"
+const featuredLessonsPromise = fetch(
+  "http://localhost:3100/featured-lessons"
 ).then((res) => res.json());
-
 /* ===== Slider Data (Digital Life Lessons) ===== */
 const heroSlides = [
   {
@@ -118,7 +118,13 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ===== Category Section (UNCHANGED) ===== */}
+  
+
+
+
+      {/* ===== Recent Bills ===== */}
+<FeaturedLessons lessonsPromise={featuredLessonsPromise} />
+    {/* ===== Category Section (UNCHANGED) ===== */}
    
    <section className="max-w-7xl mx-auto px-4 py-5">
   <div className="text-center mb-10">
@@ -204,14 +210,7 @@ const Home = () => {
     </div>
   </div>
 </section>
-
-
-
-      {/* ===== Recent Bills ===== */}
-      <Recentbills RecentbillsPromise={RecentbillsPromise} />
-
-      <WhyChooseUs />
-      <HowItWorks />
+  // here the extra 2 sections will apear
     </div>
   );
 };

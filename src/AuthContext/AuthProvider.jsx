@@ -44,13 +44,36 @@ const AuthProvider = ({ children }) => {
 
        return signInWithPopup(auth,googleProvider)
   }
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    setUser(currentUser);
+    setLoading(false);
+
+    // CREATE LESSON USER IN DB
+    if (currentUser?.email) {
+      await fetch("http://localhost:3100/lesson-users", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email: currentUser.email,
+          name: currentUser.displayName || "Anonymous",
+        }),
+      });
+    }
+  });
+
+  return () => unsubscribe();
+}, []);
+
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+  //     setUser(currentUser);
+  //     setLoading(false);
+  //   });
+  //   return () => unsubscribe();
+  // }, []);
 
   const AuthInfo = {
     user,

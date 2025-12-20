@@ -10,70 +10,114 @@ const AddLesson = () => {
 
   const [isPremium, setIsPremium] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    if (!user || !user.email) {
-      Swal.fire({
-        icon: "error",
-        title: "Not authenticated",
-        text: "Please login again",
-      });
-      return;
-    }
+  //   if (!user || !user.email) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Not authenticated",
+  //       text: "Please login again",
+  //     });
+  //     return;
+  //   }
 
-    const form = e.target;
-    const lesson = {
-      title: form.title.value,
-      category: form.category.value,
-      tone: form.tone.value,
-      content: form.content.value,
-      premium: isPremium,
-      author: user.email,
-      status: "pending", // admin approval
-      createdAt: new Date(),
-    };
+  //   const form = e.target;
+  //   const lesson = {
+  //     title: form.title.value,
+  //     category: form.category.value,
+  //     tone: form.tone.value,
+  //     content: form.content.value,
+  //     premium: isPremium,
+  //     author: user.email,
+  //     status: "pending", // admin approval
+  //     createdAt: new Date(),
+  //   };
 
-    try {
-      const res = await fetch(
-        "https://utility-bill-sys-server.vercel.app/api/lessons", // Updated URL
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(lesson),
-        }
-      );
+  //   try {
+  //     const res = await fetch(
+  //       "http://localhost:3100/lessons", // Updated URL
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(lesson),
+  //       }
+  //     );
 
-      const contentType = res.headers.get("content-type");
-      let data;
+  //     const contentType = res.headers.get("content-type");
+  //     let data;
 
-      if (contentType && contentType.includes("application/json")) {
-        data = await res.json();
-      } else {
-        const text = await res.text();
-        throw new Error(`Server returned non-JSON response: ${text}`);
-      }
+  //     if (contentType && contentType.includes("application/json")) {
+  //       data = await res.json();
+  //     } else {
+  //       const text = await res.text();
+  //       throw new Error(`Server returned non-JSON response: ${text}`);
+  //     }
 
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to submit lesson");
-      }
+  //     if (!res.ok) {
+  //       throw new Error(data.message || "Failed to submit lesson");
+  //     }
 
-      Swal.fire({
-        icon: "success",
-        title: "Lesson Submitted",
-        text: "Waiting for admin approval",
-      });
+  //     Swal.fire({
+  //       icon: "success",
+  //       title: "Lesson Submitted",
+  //       text: "Waiting for admin approval",
+  //     });
 
-      form.reset();
-      setIsPremium(false);
-    } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Failed",
-        text: err.message,
-      });
-    }
+  //     form.reset();
+  //     setIsPremium(false);
+  //   } catch (err) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Failed",
+  //       text: err.message,
+  //     });
+  //   }
+  // };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!user?.email) {
+    Swal.fire("Error", "Please login again", "error");
+    return;
+  }
+
+  const form = e.target;
+
+  const lessonData = {
+    title: form.title.value,
+    category: form.category.value,
+    tone: form.tone.value,
+    content: form.content.value,
+    accessLevel: isPremium ? "premium" : "public",
+    authorEmail: user.email,
   };
+
+  try {
+    const res = await fetch("http://localhost:3100/lessons", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(lessonData),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to add lesson");
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Lesson Submitted",
+      text: "Waiting for admin approval",
+    });
+
+    form.reset();
+    setIsPremium(false);
+  } catch (err) {
+    Swal.fire("Error", err.message, "error");
+  }
+};
 
   return (
     <div className="max-w-3xl mx-auto">

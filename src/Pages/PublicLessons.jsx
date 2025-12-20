@@ -1,55 +1,54 @@
-import React from "react";
-import { Link } from "react-router";
+import { useEffect, useState, useContext } from "react";
+import useTitle from "../Components/usetTitle";
+import { AuthContext } from "../AuthContext/AuthContext";
+import LessonCard from "./LessonCard";
+// import LessonCard from "../Components/LessonCard";
 
-const PublicLessons = ({ recentBill }) => {
+const PublicLessons = () => {
+  useTitle("Public Life Lessons");
 
-    if (!recentBill) return null; 
+  const { user } = useContext(AuthContext);
+  const [lessons, setLessons] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetch("http://localhost:3100/public-lessons")
+      .then(res => res.json())
+      .then(data => {
+        setLessons(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
-  const {
-    _id,
-    title,
-    category,
-    location,
-    date,
-    amount,
-    image
-  } = recentBill;
-               
+  if (loading) {
+    return (
+      <div className="text-center py-20 text-xl font-semibold">
+        Loading public lessons...
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+    <section className="max-w-7xl mx-auto px-4 py-16">
+      <h2 className="text-5xl font-bold text-center mb-4">
+        Public <span className="text-primary">Life Lessons</span>
+      </h2>
 
+      <p className="text-center text-gray-600 text-xl mb-10">
+        Browse wisdom shared by people around the world
+      </p>
 
-
-      <div className="p-5">
-        <h3 className="text-lg font-semibold mb-2">
-          {title}
-        </h3>
-
-        <p className="text-sm text-gray-600">
-          <strong>Category:</strong> {category}
-        </p>
-
-        <p className="text-sm text-gray-600">
-          <strong>Location:</strong> {location}
-        </p>
-
-        <p className="text-sm text-gray-600">
-          <strong>Amount:</strong> ৳{amount}
-        </p>
-
-        <p className="text-sm text-gray-600 mb-4">
-          <strong>Date:</strong> {date}
-        </p>
-
-        <Link
-          to={`/bills/${_id}`}
-          className="btn btn-outline btn-primary btn-sm w-full"
-        >
-          See Details
-        </Link>
-      </div>                      
-    </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {lessons.map(lesson => (
+          <LessonCard
+            key={lesson._id}
+            lesson={lesson}
+            currentUser={user}
+          />
+        ))}
+      </div>
+    </section>
   );
 };
 
