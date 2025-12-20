@@ -1,4 +1,3 @@
-
 import { useContext, useState } from "react";
 import { AuthContext } from "../../AuthContext/AuthContext";
 import Swal from "sweetalert2";
@@ -6,35 +5,59 @@ import Swal from "sweetalert2";
 const AddLesson = () => {
   const { user } = useContext(AuthContext);
 
-  // TEMPORARY: replace later with real subscription info
+  // TEMP: replace later with real subscription info
   const isPremiumUser = false;
 
   const [isPremium, setIsPremium] = useState(false);
-const handleSubmit = (e) => {
-  e.preventDefault();
 
-  const form = e.target;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const lesson = {
-    title: form.title.value,
-    category: form.category.value,
-    tone: form.tone.value,
-    content: form.content.value,
-    premium: isPremium,
-    author: user?.email,
-    status: "pending",        // admin approval
-    createdAt: new Date(),    // sorting
-  };
+    if (!user || !user.email) {
+      Swal.fire({
+        icon: "error",
+        title: "Not authenticated",
+        text: "Please login again",
+      });
+      return;
+    }
 
-  fetch("https://utility-bill-sys-server.vercel.app/lessons", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(lesson),
-  })
-    .then((res) => res.json())
-    .then(() => {
+    const form = e.target;
+    const lesson = {
+      title: form.title.value,
+      category: form.category.value,
+      tone: form.tone.value,
+      content: form.content.value,
+      premium: isPremium,
+      author: user.email,
+      status: "pending", // admin approval
+      createdAt: new Date(),
+    };
+
+    try {
+      const res = await fetch(
+        "https://utility-bill-sys-server.vercel.app/api/lessons", // Updated URL
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(lesson),
+        }
+      );
+
+      const contentType = res.headers.get("content-type");
+      let data;
+
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        throw new Error(`Server returned non-JSON response: ${text}`);
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to submit lesson");
+      }
+
       Swal.fire({
         icon: "success",
         title: "Lesson Submitted",
@@ -43,50 +66,20 @@ const handleSubmit = (e) => {
 
       form.reset();
       setIsPremium(false);
-    })
-    .catch(() => {
+    } catch (err) {
       Swal.fire({
         icon: "error",
         title: "Failed",
-        text: "Something went wrong. Try again!",
+        text: err.message,
       });
-    });
-};
-
-
-
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-
-//     const form = e.target;
-//     const lesson = {
-//       title: form.title.value,
-//       category: form.category.value,
-//       tone: form.tone.value,
-//       content: form.content.value,
-//       premium: isPremium,
-//       author: user?.email,
-//     };
-
-//     console.log("Lesson Data:", lesson);
-
-//     Swal.fire({
-//       icon: "success",
-//       title: "Lesson Added",
-//       text: "Your lesson has been submitted successfully!",
-//     });
-
-//     form.reset();
-//     setIsPremium(false);
-//   };
+    }
+  };
 
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Add New Lesson</h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-
         {/* Title */}
         <div>
           <label className="label">Lesson Title</label>
@@ -132,7 +125,7 @@ const handleSubmit = (e) => {
             required
             className="textarea textarea-bordered w-full"
             placeholder="Write your lesson here..."
-          ></textarea>
+          />
         </div>
 
         {/* Premium Toggle */}

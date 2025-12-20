@@ -7,7 +7,7 @@ import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
 import AuthProvider from "./AuthContext/AuthProvider";
 import "./index.css";
 
-// Pages
+// Pages   
 import Home from "./Pages/Home.jsx";
 import Notfound from "./Pages/Notfound.jsx";
 import Login from "./Pages/Login.jsx";
@@ -36,7 +36,14 @@ import DashboardLayout from "./Layouts/DashboardLayout.jsx";
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
 import Loading from "./Components/Loding.jsx";
-
+import AdminRoute from "./Router/AdminRoute.jsx";
+import LessonRequests from "./Pages/dashboard/LessonRequests.jsx";
+import AdminHome from "./Pages/dashboard/admin/AdminHome.jsx";
+import ManageUsers from "./Pages/dashboard/admin/ManageUsers.jsx";
+import ManageLessons from "./Pages/dashboard/admin/ManageLessons.jsx";
+import ReportedLessons from "./Pages/dashboard/admin/ReportedLessons.jsx";
+import AdminProfile from "./Pages/dashboard/admin/AdminProfile.jsx";
+  
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,7 +57,7 @@ const router = createBrowserRouter([
       { path: "/register", element: <Register /> },
       { path: "/pricing", element: <Pricing/> },
     ],
-  },
+  }, 
 
   {
     path: "/dashboard",
@@ -59,11 +66,51 @@ const router = createBrowserRouter([
       <DashboardLayout></DashboardLayout>
       </PrivateRoute>
     ),
-    children: [
-      { path: "add-lesson", element: <AddLesson /> },
-      { path: "my-lessons", element: <MyLessons /> },
-      { path: "profile", element: <Profile /> },
-    ],
+   
+   children: [
+  // USER ROUTES
+  { path: "add-lesson", element: <AddLesson /> },
+  { path: "my-lessons", element: <MyLessons /> },
+  { path: "profile", element: <Profile /> },
+
+   {
+      path: "admin",
+      element: <AdminRoute><AdminHome></AdminHome></AdminRoute>,
+    },
+// Admin routes
+{
+  path: "/dashboard/admin",
+  element: <AdminRoute><AdminHome /></AdminRoute>,
+},
+{
+  path: "/dashboard/admin/manage-users",
+  element: <AdminRoute><ManageUsers /></AdminRoute>,
+},
+{
+  path: "/dashboard/admin/manage-lessons",
+  element: <AdminRoute><ManageLessons /></AdminRoute>,
+},
+{
+  path: "/dashboard/admin/reported-lessons",
+  element: <AdminRoute><ReportedLessons /></AdminRoute>,
+},
+{
+  path: "/dashboard/admin/profile",
+  element: <AdminRoute><AdminProfile /></AdminRoute>,
+},
+
+  // ADMIN ROUTE
+  {
+    path: "admin/lesson-requests",
+    element: (
+      <AdminRoute>
+        <LessonRequests />
+      </AdminRoute>
+    ),
+  },
+],
+
+
   },
 ]); 
 
