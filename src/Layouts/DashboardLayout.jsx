@@ -17,7 +17,7 @@ const DashboardLayout = () => {
           {/* USER LINKS */}
           {role === "user" && (
             <>
-              <li><NavLink to="/dashboard">Dashboard Home</NavLink></li>
+              {/* <li><NavLink to="/dashboard">Dashboard Home</NavLink></li> */}
               <li><NavLink to="/dashboard/add-lesson">Add Lesson</NavLink></li>
               <li><NavLink to="/dashboard/my-lessons">My Lessons</NavLink></li>
               <li><NavLink to="/dashboard/profile">Profile</NavLink></li>

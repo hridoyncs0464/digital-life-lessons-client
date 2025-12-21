@@ -20,8 +20,16 @@ const LessonCard = ({ lesson, currentUser }) => {
     ? content.slice(0, 90) + "..."
     : "No preview available";
 
+  const createdDate = createdAt
+    ? new Date(createdAt).toLocaleDateString()
+    : "";
+
   return (
-    <div className="relative bg-white rounded-lg shadow-md p-5 hover:shadow-lg transition overflow-hidden">
+    <div className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-xl shadow-md hover:shadow-xl transition overflow-hidden border border-purple-100">
+      {/* Top accent bar */}
+      <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-indigo-500" />
+
+      {/* Lock overlay */}
       {isLocked && (
         <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center text-center px-4">
           <FaLock className="text-4xl text-primary mb-3" />
@@ -34,43 +42,57 @@ const LessonCard = ({ lesson, currentUser }) => {
         </div>
       )}
 
-      <div className={isLocked ? "blur-sm pointer-events-none" : ""}>
-        <h3 className="text-lg font-semibold mb-2">{title}</h3>
+      <div className={`p-5 flex flex-col h-full ${isLocked ? "blur-sm pointer-events-none" : ""}`}>
+        {/* Title */}
+        <h3 className="text-lg font-semibold mb-2 text-gray-900">
+          {title}
+        </h3>
 
-        <p className="text-sm text-gray-600 mb-1">
-          <strong>Category:</strong> {category}
-        </p>
-
-        <p className="text-sm text-gray-600 mb-1">
-          <strong>Emotional Tone:</strong> {tone}
-        </p>
-
-        <p className="text-sm text-gray-600 mb-1">
-          <strong>Access:</strong> {isPremiumLesson ? "Premium" : "Public"}
-        </p>
-
-        <p className="text-sm text-gray-500 mb-3">{previewText}</p>
-
-        <div className="flex items-center gap-3 mb-3">
-          <img
-            src={author?.photo}
-            alt={author?.name}
-            className="w-8 h-8 rounded-full object-cover"
-          />
-          <div>
-            <p className="text-sm font-medium">{author?.name}</p>
-            <p className="text-xs text-gray-500">
-              {createdAt && new Date(createdAt).toLocaleDateString()}
-            </p>
-          </div>
+        {/* Meta */}
+        <div className="text-xs text-gray-600 mb-2 space-y-1">
+          <p>
+            <span className="font-semibold">Category:</span> {category}
+          </p>
+          <p>
+            <span className="font-semibold">Emotional Tone:</span> {tone}
+          </p>
+          <p>
+            <span className="font-semibold">Access:</span>{" "}
+            {isPremiumLesson ? "Premium" : "Public"}
+          </p>
         </div>
 
-        <Link
-          to={`/lessons/${_id}`}
-          className="btn btn-outline btn-primary btn-sm w-full"
-        >
-          See Details
-        </Link>
+        {/* Preview */}
+        <p className="text-sm text-gray-700 mb-4">
+          {previewText}
+        </p>
+
+        {/* Footer: author + date */}
+        <div className="mt-auto flex items-center justify-between text-xs text-gray-500">
+          <div className="flex items-center gap-2">
+            {/* Only show avatar if photo exists */}
+            {author?.photo && (
+              <img
+                src={author.photo}
+                alt={author?.name}
+                className="w-8 h-8 rounded-full object-cover border border-purple-200"
+              />
+            )}
+            <div>
+              <p className="font-medium text-gray-800">
+                {author?.name || "Unknown Author"}
+              </p>
+              {createdDate && <p>{createdDate}</p>}
+            </div>
+          </div>
+
+          <Link
+            to={`/lessons/${_id}`}
+            className="btn btn-outline btn-primary btn-xs"
+          >
+            See Details
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -36,6 +36,9 @@ import AdminProfile from "./Pages/dashboard/admin/AdminProfile.jsx";
 
 // Components
 import Loading from "./Components/Loding.jsx";
+import { Toaster } from "react-hot-toast";
+import PaymentSuccess from "./Pages/PaymentSuccess.jsx";
+import PaymentCancel from "./Pages/PaymentCancel.jsx";
 
 const router = createBrowserRouter([
   // =======================
@@ -48,10 +51,17 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/public-lessons", element: <PublicLessons /> },
-      { path: "/lessons/:id", element: <LessonDetails /> },
+      {
+        path: "/lessons/:id",
+        element: <LessonDetails />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3100/lessons/${params.id}`),
+      },
       { path: "/pricing", element: <Pricing /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
+      { path: "/payment/success", element: <PaymentSuccess /> },
+      { path: "/payment/cancel", element: <PaymentCancel /> },
     ],
   },
 
@@ -66,6 +76,7 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      { index: true, element: <Profile /> },
       { path: "add-lesson", element: <AddLesson /> },
       { path: "my-lessons", element: <MyLessons /> },
       { path: "profile", element: <Profile /> },
