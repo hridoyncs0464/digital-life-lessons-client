@@ -6,7 +6,7 @@ import TopContributors from "./TopContributors";
 import MostSavedLessons from "../Components/MostSavedLessons";
 
 const featuredLessonsPromise = fetch(
-  "http://localhost:3100/featured-lessons"
+  "https://digital-life-lessons-server-omega.vercel.app/featured-lessons"
 ).then((res) => res.json());
 
 const heroSlides = [
@@ -69,8 +69,8 @@ const Home = () => {
   }, []);
 
   const goPrev = () => {
-    setCurrentSlide((prev) =>
-      (prev - 1 + heroSlides.length) % heroSlides.length
+    setCurrentSlide(
+      (prev) => (prev - 1 + heroSlides.length) % heroSlides.length
     );
   };
 
@@ -140,5 +140,3 @@ const Home = () => {
 };
 
 export default Home;
-
-

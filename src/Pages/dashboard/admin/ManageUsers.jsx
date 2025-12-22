@@ -10,13 +10,15 @@ const ManageUsers = () => {
   const [loading, setLoading] = useState(true);
   const [updatingId, setUpdatingId] = useState(null);
 
-  const adminEmail = user?.email; 
+  const adminEmail = user?.email;
 
   const fetchUsers = () => {
     if (!adminEmail) return;
 
     setLoading(true);
-    fetch(`http://localhost:3100/admin/users?email=${adminEmail}`)
+    fetch(
+      `https://digital-life-lessons-server-omega.vercel.app/admin/users?email=${adminEmail}`
+    )
       .then((res) => res.json())
       .then(async (data) => {
         setUsers(data || []);
@@ -28,7 +30,7 @@ const ManageUsers = () => {
             if (!u.email) return;
             try {
               const res = await fetch(
-                `http://localhost:3100/my-lessons?email=${encodeURIComponent(
+                `https://digital-life-lessons-server-omega.vercel.app/my-lessons?email=${encodeURIComponent(
                   u.email
                 )}`
               );
@@ -66,7 +68,7 @@ const ManageUsers = () => {
 
     setUpdatingId(userId);
     fetch(
-      `http://localhost:3100/admin/users/${userId}?email=${encodeURIComponent(
+      `https://digital-life-lessons-server-omega.vercel.app/admin/users/${userId}?email=${encodeURIComponent(
         adminEmail
       )}`,
       {
@@ -94,7 +96,7 @@ const ManageUsers = () => {
 
     setUpdatingId(userId);
     fetch(
-      `http://localhost:3100/admin/users/${userId}?email=${encodeURIComponent(
+      `https://digital-life-lessons-server-omega.vercel.app/admin/users/${userId}?email=${encodeURIComponent(
         adminEmail
       )}`,
       {
@@ -116,11 +118,11 @@ const ManageUsers = () => {
 
   if (loading) {
     return (
-          <section className="min-h-[60vh] flex items-center justify-center">
-            {/* <span className="loading loading-spinner loading-lg" /> */}
-            <Loading></Loading>
-          </section>
-        );
+      <section className="min-h-[60vh] flex items-center justify-center">
+        {/* <span className="loading loading-spinner loading-lg" /> */}
+        <Loading></Loading>
+      </section>
+    );
   }
 
   return (
@@ -173,8 +175,7 @@ const ManageUsers = () => {
                           {u.name || "Unknown User"}
                         </div>
                         <div className="text-xs text-gray-500">
-                          {new Date(u.createdAt).toLocaleDateString?.() ||
-                            ""}
+                          {new Date(u.createdAt).toLocaleDateString?.() || ""}
                         </div>
                       </div>
                     </td>
@@ -195,9 +196,7 @@ const ManageUsers = () => {
                           Premium ⭐
                         </span>
                       ) : (
-                        <span className="badge badge-ghost badge-sm">
-                          Free
-                        </span>
+                        <span className="badge badge-ghost badge-sm">Free</span>
                       )}
                     </td>
                     <td>
@@ -208,9 +207,7 @@ const ManageUsers = () => {
                             className="btn btn-xs btn-secondary"
                             disabled={updatingId === id}
                           >
-                            {u.role === "admin"
-                              ? "Make User"
-                              : "Make Admin"}
+                            {u.role === "admin" ? "Make User" : "Make Admin"}
                           </button>
                         )}
 
@@ -225,9 +222,7 @@ const ManageUsers = () => {
                         )}
 
                         {isCurrentAdmin && (
-                          <span className="text-xs text-gray-400">
-                            (You)
-                          </span>
+                          <span className="text-xs text-gray-400">(You)</span>
                         )}
                       </div>
                     </td>
@@ -254,6 +249,3 @@ const ManageUsers = () => {
 };
 
 export default ManageUsers;
-
-
-

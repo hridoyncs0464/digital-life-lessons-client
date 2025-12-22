@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 // import { useAuth } from '../AuthContext/AuthContext';
 // import { useRole } from '../hooks/useRole';
 // import useTitle from '../Components/useTitle';
-import toast from 'react-hot-toast';
-import useTitle from '../Components/usetTitle';
-import useAuth from '../AuthContext/useAuth';
-import useRole from '../hooks/useRole';
-import Loading from '../Components/Loading';
+import toast from "react-hot-toast";
+import useTitle from "../Components/usetTitle";
+import useAuth from "../AuthContext/useAuth";
+import useRole from "../hooks/useRole";
+import Loading from "../Components/Loading";
 
 const Pricing = () => {
-  useTitle('Pricing | Digital Life Lessons');
+  useTitle("Pricing | Digital Life Lessons");
   const { user, loading } = useAuth();
   const { premium, roleLoading } = useRole();
   const navigate = useNavigate();
@@ -18,39 +18,42 @@ const Pricing = () => {
 
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/login');
+      navigate("/login");
     }
   }, [user, loading, navigate]);
 
   const handleUpgrade = async () => {
     if (premium) {
-      toast('You are already a Premium member! ⭐', { icon: '⭐' });
+      toast("You are already a Premium member! ⭐", { icon: "⭐" });
       return;
     }
 
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:3100/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userEmail: user?.email })
-      });
+      const response = await fetch(
+        "https://digital-life-lessons-server-omega.vercel.app/create-checkout-session",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userEmail: user?.email }),
+        }
+      );
 
       const { url } = await response.json();
-      window.location.href = url; // Stripe redirects automatically here we cant go outside the 
+      window.location.href = url; // Stripe redirects automatically here we cant go outside the
     } catch (error) {
-      toast.error('Failed to create checkout session');
+      toast.error("Failed to create checkout session");
       setIsLoading(false);
     }
   };
 
   if (loading || roleLoading) {
     return (
-          <section className="min-h-[60vh] flex items-center justify-center">
-            {/* <span className="loading loading-spinner loading-lg" /> */}
-            <Loading></Loading>
-          </section>
-        );
+      <section className="min-h-[60vh] flex items-center justify-center">
+        {/* <span className="loading loading-spinner loading-lg" /> */}
+        <Loading></Loading>
+      </section>
+    );
   }
 
   if (premium) {
@@ -62,15 +65,21 @@ const Pricing = () => {
               <span className="text-3xl">⭐</span>
             </div>
             <h1 className="text-5xl font-bold mb-4">Premium Member</h1>
-            <p className="text-xl opacity-90 mb-8">Enjoy lifetime access to all Premium features!</p>
+            <p className="text-xl opacity-90 mb-8">
+              Enjoy lifetime access to all Premium features!
+            </p>
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl inline-block">
-              <p className="text-2xl font-semibold">Unlimited Premium Lessons</p>
+              <p className="text-2xl font-semibold">
+                Unlimited Premium Lessons
+              </p>
             </div>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="bg-white p-8 rounded-2xl shadow-xl border border-purple-100">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">✅ Premium Features Active</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                ✅ Premium Features Active
+              </h3>
               <ul className="space-y-3 text-lg">
                 <li>✨ Create Premium Lessons</li>
                 <li>✨ View All Premium Content</li>
@@ -98,7 +107,8 @@ const Pricing = () => {
             Unlock Premium Wisdom
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto mb-12">
-            One-time payment for lifetime access to exclusive lessons and premium features
+            One-time payment for lifetime access to exclusive lessons and
+            premium features
           </p>
         </div>
 
@@ -109,8 +119,12 @@ const Pricing = () => {
               <thead>
                 <tr className="bg-gradient-to-r from-purple-500 to-indigo-600">
                   <th className="text-white font-bold text-lg">Feature</th>
-                  <th className="text-white font-bold text-lg text-center">Free</th>
-                  <th className="text-white font-bold text-lg text-center">Premium ⭐</th>
+                  <th className="text-white font-bold text-lg text-center">
+                    Free
+                  </th>
+                  <th className="text-white font-bold text-lg text-center">
+                    Premium ⭐
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -127,12 +141,16 @@ const Pricing = () => {
                 <tr>
                   <td className="font-semibold">Premium Lessons Access</td>
                   <td className="text-center">❌ Blurred/Locked</td>
-                  <td className="text-center text-green-500 font-bold">✅ Full Access</td>
+                  <td className="text-center text-green-500 font-bold">
+                    ✅ Full Access
+                  </td>
                 </tr>
                 <tr className="bg-gray-50/50">
                   <td className="font-semibold">Create Premium Lessons</td>
                   <td className="text-center">❌</td>
-                  <td className="text-center text-green-500 font-bold">✅ Yes</td>
+                  <td className="text-center text-green-500 font-bold">
+                    ✅ Yes
+                  </td>
                 </tr>
                 <tr>
                   <td className="font-semibold">Ad-free Experience</td>
@@ -142,17 +160,23 @@ const Pricing = () => {
                 <tr className="bg-gray-50/50">
                   <td className="font-semibold">Priority Listing</td>
                   <td className="text-center">📍 Normal</td>
-                  <td className="text-center text-green-500 font-bold">⭐ Top Priority</td>
+                  <td className="text-center text-green-500 font-bold">
+                    ⭐ Top Priority
+                  </td>
                 </tr>
                 <tr>
                   <td className="font-semibold">Advanced Analytics</td>
                   <td className="text-center">📊 Basic</td>
-                  <td className="text-center text-green-500 font-bold">📊 Detailed</td>
+                  <td className="text-center text-green-500 font-bold">
+                    📊 Detailed
+                  </td>
                 </tr>
                 <tr className="bg-gray-50/50">
                   <td className="font-semibold">Support Priority</td>
                   <td className="text-center">⏳ Standard</td>
-                  <td className="text-center text-green-500 font-bold">🚀 Priority</td>
+                  <td className="text-center text-green-500 font-bold">
+                    🚀 Priority
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -173,7 +197,7 @@ const Pricing = () => {
                   Processing...
                 </>
               ) : (
-                'Upgrade to Premium ⭐ ৳1500 Lifetime'
+                "Upgrade to Premium ⭐ ৳1500 Lifetime"
               )}
             </button>
           </div>

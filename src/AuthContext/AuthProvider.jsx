@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { auth } from "../Firebase/firebase.init";
 import {
@@ -7,12 +6,11 @@ import {
   signOut,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup,                      
+  signInWithPopup,
 } from "firebase/auth";
 import { AuthContext } from "./AuthContext";
-;
-const googleProvider  = new GoogleAuthProvider()
-                               
+const googleProvider = new GoogleAuthProvider();
+
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,33 +30,36 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  const signInWithGoogle = ()=>{
-        setLoading(true);
+  const signInWithGoogle = () => {
+    setLoading(true);
 
-       return signInWithPopup(auth,googleProvider)
-  }
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-    setUser(currentUser);
-    setLoading(false);
+    return signInWithPopup(auth, googleProvider);
+  };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
 
-    // CREATE LESSON USER IN DB
-    if (currentUser?.email) {
-      await fetch("http://localhost:3100/lesson-users", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          email: currentUser.email,
-          name: currentUser.displayName || "Anonymous",
-        }),
-      });
-    }
-  });
+      // CREATE LESSON USER IN DB
+      if (currentUser?.email) {
+        await fetch(
+          "https://digital-life-lessons-server-omega.vercel.app/lesson-users",
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify({
+              email: currentUser.email,
+              name: currentUser.displayName || "Anonymous",
+            }),
+          }
+        );
+      }
+    });
 
-  return () => unsubscribe();
-}, []);
+    return () => unsubscribe();
+  }, []);
 
   const AuthInfo = {
     user,
@@ -68,7 +69,9 @@ useEffect(() => {
     logOutUser,
     signInWithGoogle,
   };
-  return <AuthContext.Provider value={AuthInfo}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={AuthInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

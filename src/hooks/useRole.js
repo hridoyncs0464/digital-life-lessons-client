@@ -9,9 +9,11 @@ const useRole = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3100/lesson-users/role?email=${user.email}`)
-        .then(res => res.json())
-        .then(data => {
+      fetch(
+        `https://digital-life-lessons-server-omega.vercel.app/lesson-users/role?email=${user.email}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
           setRole(data.role);
           setPremium(data.premium);
           setLoading(false);

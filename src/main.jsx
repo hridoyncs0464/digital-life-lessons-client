@@ -55,7 +55,9 @@ const router = createBrowserRouter([
         path: "/lessons/:id",
         element: <LessonDetails />,
         loader: ({ params }) =>
-          fetch(`http://localhost:3100/lessons/${params.id}`),
+          fetch(
+            `https://digital-life-lessons-server-omega.vercel.app/lessons/${params.id}`
+          ),
       },
       { path: "/pricing", element: <Pricing /> },
       { path: "/login", element: <Login /> },

@@ -20,17 +20,21 @@ const AdminHome = () => {
 
     const load = async () => {
       try {
-        const [
-          usersRes,
-          lessonsRes,
-          reportedRes,
-          contributorsRes,
-        ] = await Promise.all([
-          fetch(`http://localhost:3100/admin/users?email=${user.email}`),
-          fetch(`http://localhost:3100/admin/lessons?email=${user.email}`),
-          fetch(`http://localhost:3100/reported-lessons?email=${user.email}`),
-          fetch("http://localhost:3100/top-contributors"),
-        ]);
+        const [usersRes, lessonsRes, reportedRes, contributorsRes] =
+          await Promise.all([
+            fetch(
+              `https://digital-life-lessons-server-omega.vercel.app/admin/users?email=${user.email}`
+            ),
+            fetch(
+              `https://digital-life-lessons-server-omega.vercel.app/admin/lessons?email=${user.email}`
+            ),
+            fetch(
+              `https://digital-life-lessons-server-omega.vercel.app/reported-lessons?email=${user.email}`
+            ),
+            fetch(
+              "https://digital-life-lessons-server-omega.vercel.app/top-contributors"
+            ),
+          ]);
 
         const users = await usersRes.json();
         const lessons = await lessonsRes.json();
@@ -46,8 +50,7 @@ const AdminHome = () => {
         const todayStr = new Date().toDateString();
         const todaysNewLessons = lessons.filter(
           (l) =>
-            l.createdAt &&
-            new Date(l.createdAt).toDateString() === todayStr
+            l.createdAt && new Date(l.createdAt).toDateString() === todayStr
         ).length;
 
         // Build simple 7-day growth arrays for lessons & users
@@ -95,20 +98,12 @@ const AdminHome = () => {
   }, [user?.email]);
 
   const maxLessonCount = useMemo(
-    () =>
-      lessonGrowth.reduce(
-        (max, d) => (d.count > max ? d.count : max),
-        1
-      ),
+    () => lessonGrowth.reduce((max, d) => (d.count > max ? d.count : max), 1),
     [lessonGrowth]
   );
 
   const maxUserCount = useMemo(
-    () =>
-      userGrowth.reduce(
-        (max, d) => (d.count > max ? d.count : max),
-        1
-      ),
+    () => userGrowth.reduce((max, d) => (d.count > max ? d.count : max), 1),
     [userGrowth]
   );
 
@@ -150,9 +145,7 @@ const AdminHome = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="stat bg-base-100 rounded-2xl shadow">
           <div className="stat-title">Total users</div>
-          <div className="stat-value text-primary">
-            {stats.totalUsers}
-          </div>
+          <div className="stat-value text-primary">{stats.totalUsers}</div>
           <div className="stat-desc">All registered lesson users</div>
         </div>
 
@@ -205,12 +198,8 @@ const AdminHome = () => {
                         : `${(d.count / maxLessonCount) * 100}%`,
                   }}
                 />
-                <span className="text-[10px] text-gray-500">
-                  {d.label}
-                </span>
-                <span className="text-[10px] font-semibold">
-                  {d.count}
-                </span>
+                <span className="text-[10px] text-gray-500">{d.label}</span>
+                <span className="text-[10px] font-semibold">{d.count}</span>
               </div>
             ))}
           </div>
@@ -219,9 +208,7 @@ const AdminHome = () => {
         <div className="bg-base-100 rounded-2xl shadow p-5">
           <div className="flex justify-between items-center mb-3">
             <h2 className="text-lg font-semibold">User growth (7 days)</h2>
-            <span className="text-xs text-gray-500">
-              New users per day
-            </span>
+            <span className="text-xs text-gray-500">New users per day</span>
           </div>
           <div className="flex items-end gap-2 h-32">
             {userGrowth.map((d) => (
@@ -238,12 +225,8 @@ const AdminHome = () => {
                         : `${(d.count / maxUserCount) * 100}%`,
                   }}
                 />
-                <span className="text-[10px] text-gray-500">
-                  {d.label}
-                </span>
-                <span className="text-[10px] font-semibold">
-                  {d.count}
-                </span>
+                <span className="text-[10px] text-gray-500">{d.label}</span>
+                <span className="text-[10px] font-semibold">{d.count}</span>
               </div>
             ))}
           </div>
@@ -293,9 +276,7 @@ const AdminHome = () => {
                       <p className="text-sm font-semibold">
                         {c.name || "Anonymous"}
                       </p>
-                      <p className="text-xs text-gray-500">
-                        {c.email}
-                      </p>
+                      <p className="text-xs text-gray-500">{c.email}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -356,9 +337,6 @@ const AdminHome = () => {
 
 export default AdminHome;
 
-
-
-
 // import React, { useEffect, useState } from "react";
 // import useAuth from "../../../AuthContext/useAuth";
 
@@ -379,10 +357,10 @@ export default AdminHome;
 //       try {
 //         // Fetch all data in parallel
 //         const [usersRes, lessonsRes, pendingRes, reportedRes] = await Promise.all([
-//           fetch(`http://localhost:3100/admin/users?email=${user.email}`),
-//           fetch(`http://localhost:3100/admin/lessons?email=${user.email}`),
-//           fetch(`http://localhost:3100/admin/lesson-requests?email=${user.email}`),
-//           fetch(`http://localhost:3100/reported-lessons?email=${user.email}`),
+//           fetch(`https://digital-life-lessons-server-omega.vercel.app/admin/users?email=${user.email}`),
+//           fetch(`https://digital-life-lessons-server-omega.vercel.app/admin/lessons?email=${user.email}`),
+//           fetch(`https://digital-life-lessons-server-omega.vercel.app/admin/lesson-requests?email=${user.email}`),
+//           fetch(`https://digital-life-lessons-server-omega.vercel.app/reported-lessons?email=${user.email}`),
 //         ]);
 
 //         const users = await usersRes.json();

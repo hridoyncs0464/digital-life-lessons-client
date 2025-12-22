@@ -5,7 +5,7 @@ import useTitle from "../Components/usetTitle.js";
 import { Link } from "react-router";
 
 const TopContributorsPromise = fetch(
-  "http://localhost:3100/top-contributors"
+  "https://digital-life-lessons-server-omega.vercel.app/top-contributors"
 ).then((res) => res.json());
 
 const TopContributors = () => {
@@ -20,7 +20,8 @@ const TopContributors = () => {
     }).catch(() => setLoading(false));
   }, []);
 
-  if (loading) return (
+  if (loading)
+    return (
       <section className="min-h-[60vh] flex items-center justify-center">
         {/* <span className="loading loading-spinner loading-lg" /> */}
         <Loading></Loading>

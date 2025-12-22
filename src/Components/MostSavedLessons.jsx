@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import Loading from "./Loading.jsx";
 
 const MostSavedLessonsPromise = fetch(
-  "http://localhost:3100/most-saved-lessons"
+  "https://digital-life-lessons-server-omega.vercel.app/most-saved-lessons"
 ).then((res) => res.json());
 
 const MostSavedLessons = () => {

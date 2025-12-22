@@ -21,8 +21,12 @@ const ManageLessons = () => {
 
     setLoading(true);
     Promise.all([
-      fetch(`http://localhost:3100/admin/lessons?email=${adminEmail}`),
-      fetch(`http://localhost:3100/reported-lessons?email=${adminEmail}`),
+      fetch(
+        `https://digital-life-lessons-server-omega.vercel.app/admin/lessons?email=${adminEmail}`
+      ),
+      fetch(
+        `https://digital-life-lessons-server-omega.vercel.app/reported-lessons?email=${adminEmail}`
+      ),
     ])
       .then(async ([lessonsRes, reportedRes]) => {
         const lessonsData = await lessonsRes.json();
@@ -100,7 +104,7 @@ const ManageLessons = () => {
     if (!window.confirm("Delete this lesson permanently?")) return;
 
     fetch(
-      `http://localhost:3100/admin/lessons/${id}?email=${encodeURIComponent(
+      `https://digital-life-lessons-server-omega.vercel.app/admin/lessons/${id}?email=${encodeURIComponent(
         adminEmail
       )}`,
       {
@@ -125,7 +129,7 @@ const ManageLessons = () => {
       return;
 
     fetch(
-      `http://localhost:3100/admin/approve-lesson/${requestId}?email=${encodeURIComponent(
+      `https://digital-life-lessons-server-omega.vercel.app/admin/approve-lesson/${requestId}?email=${encodeURIComponent(
         adminEmail
       )}`,
       {
@@ -141,11 +145,14 @@ const ManageLessons = () => {
   };
 
   const handlePatchLesson = (id, patch) => {
-    fetch(`http://localhost:3100/lessons/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(patch),
-    })
+    fetch(
+      `https://digital-life-lessons-server-omega.vercel.app/lessons/${id}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patch),
+      }
+    )
       .then((res) => res.json())
       .then(() => {
         fetchData();
@@ -171,7 +178,8 @@ const ManageLessons = () => {
     return <p className="p-4">Admin email not found. Please log in again.</p>;
   }
 
-  if (loading) return (
+  if (loading)
+    return (
       <section className="min-h-[60vh] flex items-center justify-center">
         {/* <span className="loading loading-spinner loading-lg" /> */}
         <Loading></Loading>
@@ -201,23 +209,17 @@ const ManageLessons = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="stat bg-base-100 rounded-xl shadow">
           <div className="stat-title">Public lessons</div>
-          <div className="stat-value text-primary">
-            {stats.publicLessons}
-          </div>
+          <div className="stat-value text-primary">{stats.publicLessons}</div>
           <div className="stat-desc">Status: approved</div>
         </div>
         <div className="stat bg-base-100 rounded-xl shadow">
           <div className="stat-title">Pending lessons</div>
-          <div className="stat-value text-warning">
-            {stats.privateLessons}
-          </div>
+          <div className="stat-value text-warning">{stats.privateLessons}</div>
           <div className="stat-desc">Awaiting review</div>
         </div>
         <div className="stat bg-base-100 rounded-xl shadow">
           <div className="stat-title">Flagged content</div>
-          <div className="stat-value text-error">
-            {stats.flaggedLessons}
-          </div>
+          <div className="stat-value text-error">{stats.flaggedLessons}</div>
           <div className="stat-desc">Reported by users</div>
         </div>
       </div>
@@ -345,9 +347,7 @@ const ManageLessons = () => {
                         Premium
                       </span>
                     ) : (
-                      <span className="badge badge-outline badge-sm">
-                        Free
-                      </span>
+                      <span className="badge badge-outline badge-sm">Free</span>
                     )}
                   </td>
                   <td>
@@ -361,19 +361,18 @@ const ManageLessons = () => {
                   </td>
                   <td>
                     <div className="flex justify-end gap-2 flex-wrap">
-                      {lesson.status === "pending" &&
-                        lesson.requestId && (
-                          <button
-                            className="btn btn-xs btn-success"
-                            onClick={() =>
-                              handleApprove(
-                                lesson.requestId?.toString() || lesson.requestId
-                              )
-                            }
-                          >
-                            Approve
-                          </button>
-                        )}
+                      {lesson.status === "pending" && lesson.requestId && (
+                        <button
+                          className="btn btn-xs btn-success"
+                          onClick={() =>
+                            handleApprove(
+                              lesson.requestId?.toString() || lesson.requestId
+                            )
+                          }
+                        >
+                          Approve
+                        </button>
+                      )}
                       {lesson.status === "pending" && !lesson.requestId && (
                         <button
                           className="btn btn-xs btn-success"
@@ -433,6 +432,3 @@ const ManageLessons = () => {
 };
 
 export default ManageLessons;
-
-
-

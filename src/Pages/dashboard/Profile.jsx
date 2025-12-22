@@ -5,51 +5,52 @@ import { AuthContext } from "../../AuthContext/AuthContext";
 import useRole from "../../hooks/useRole";
 import Loading from "../../Components/Loading";
 
-
 const Profile = () => {
   useTitle("My Profile | Dashboard");
   const { user } = useContext(AuthContext);
   const { role, premium, roleLoading } = useRole();
-  const [stats, setStats] = useState({ lessons: 0, favorites: 0, loading: true });
+  const [stats, setStats] = useState({
+    lessons: 0,
+    favorites: 0,
+    loading: true,
+  });
 
-useEffect(() => {
-  const fetchStats = async () => {
-    if (!user?.email || !user?.uid) {
-      setStats({ lessons: 0, favorites: 0, loading: false });
-      return;
-    }
+  useEffect(() => {
+    const fetchStats = async () => {
+      if (!user?.email || !user?.uid) {
+        setStats({ lessons: 0, favorites: 0, loading: false });
+        return;
+      }
 
-    try {
-      const [lessonsRes, favRes] = await Promise.all([
-        fetch(
-          `http://localhost:3100/stats/my-lessons-count?email=${encodeURIComponent(
-            user.email
-          )}`
-        ),
-        fetch(
-          `http://localhost:3100/stats/my-favorites-count?userId=${encodeURIComponent(
-            user.uid
-          )}`
-        ),
-      ]);
+      try {
+        const [lessonsRes, favRes] = await Promise.all([
+          fetch(
+            `https://digital-life-lessons-server-omega.vercel.app/stats/my-lessons-count?email=${encodeURIComponent(
+              user.email
+            )}`
+          ),
+          fetch(
+            `https://digital-life-lessons-server-omega.vercel.app/stats/my-favorites-count?userId=${encodeURIComponent(
+              user.uid
+            )}`
+          ),
+        ]);
 
-      const lessonsData = await lessonsRes.json();
-      const favData = await favRes.json();
+        const lessonsData = await lessonsRes.json();
+        const favData = await favRes.json();
 
-      setStats({
-        lessons: lessonsData.count || 0,
-        favorites: favData.count || 0,
-        loading: false,
-      });
-    } catch (err) {
-      setStats({ lessons: 0, favorites: 0, loading: false });
-    }
-  };
+        setStats({
+          lessons: lessonsData.count || 0,
+          favorites: favData.count || 0,
+          loading: false,
+        });
+      } catch (err) {
+        setStats({ lessons: 0, favorites: 0, loading: false });
+      }
+    };
 
-  fetchStats();
-}, [user]);
-
-
+    fetchStats();
+  }, [user]);
 
   if (!user || roleLoading) {
     return (
@@ -67,10 +68,7 @@ useEffect(() => {
         <div className="avatar">
           <div className="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
             <img
-              src={
-                user.photoURL ||
-                "https://i.ibb.co/4pDNDk1/avatar.png"
-              }
+              src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
               alt="User avatar"
             />
           </div>
@@ -87,13 +85,9 @@ useEffect(() => {
               Role: {role === "admin" ? "Admin" : "User"}
             </span>
             {premium ? (
-              <span className="badge badge-success gap-1">
-                ⭐ Premium
-              </span>
+              <span className="badge badge-success gap-1">⭐ Premium</span>
             ) : (
-              <span className="badge badge-warning gap-1">
-                Free Plan
-              </span>
+              <span className="badge badge-warning gap-1">Free Plan</span>
             )}
           </div>
         </div>
@@ -125,7 +119,9 @@ useEffect(() => {
         <h3 className="text-lg font-semibold mb-2">Account Info</h3>
         <ul className="space-y-1 text-sm text-gray-700">
           <li>• Email cannot be changed (Firebase security).</li>
-          <li>• Display name and photo can be updated from your auth provider.</li>
+          <li>
+            • Display name and photo can be updated from your auth provider.
+          </li>
           <li>• Premium badge is controlled by your plan in the system.</li>
         </ul>
       </div>

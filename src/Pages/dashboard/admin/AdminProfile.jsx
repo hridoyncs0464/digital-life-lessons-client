@@ -18,14 +18,20 @@ const AdminProfile = () => {
 
     // minimal admin stats using existing endpoints
     Promise.all([
-      fetch(`http://localhost:3100/admin/users?email=${user.email}`).then(res => res.json()),
-      fetch(`http://localhost:3100/admin/lessons?email=${user.email}`).then(res => res.json()),
-      fetch(`http://localhost:3100/reported-lessons?email=${user.email}`).then(res => res.json()),
+      fetch(
+        `https://digital-life-lessons-server-omega.vercel.app/admin/users?email=${user.email}`
+      ).then((res) => res.json()),
+      fetch(
+        `https://digital-life-lessons-server-omega.vercel.app/admin/lessons?email=${user.email}`
+      ).then((res) => res.json()),
+      fetch(
+        `https://digital-life-lessons-server-omega.vercel.app/reported-lessons?email=${user.email}`
+      ).then((res) => res.json()),
     ])
       .then(([users, lessons, reported]) => {
         const today = new Date().toDateString();
         const approvedLessonsToday = lessons.filter(
-          l =>
+          (l) =>
             l.status === "approved" &&
             l.createdAt &&
             new Date(l.createdAt).toDateString() === today
@@ -61,7 +67,11 @@ const AdminProfile = () => {
       <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 rounded-3xl p-6 md:p-8 text-white shadow-xl mb-8 flex flex-col md:flex-row gap-6 items-center">
         <div className="avatar">
           <div className="w-28 h-28 rounded-full ring ring-white ring-offset-2 ring-offset-purple-500 overflow-hidden">
-            <img src={photoUrl} alt={displayName} className="object-cover w-full h-full" />
+            <img
+              src={photoUrl}
+              alt={displayName}
+              className="object-cover w-full h-full"
+            />
           </div>
         </div>
 
@@ -70,7 +80,9 @@ const AdminProfile = () => {
             Admin Profile
           </p>
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{displayName}</h1>
-          <p className="text-sm md:text-base text-indigo-100 mb-1">{adminEmail}</p>
+          <p className="text-sm md:text-base text-indigo-100 mb-1">
+            {adminEmail}
+          </p>
           <div className="flex flex-wrap items-center gap-2 mt-2">
             <span className="badge badge-warning badge-lg text-xs font-semibold">
               Admin ⭐
@@ -104,7 +116,9 @@ const AdminProfile = () => {
 
         <div className="stat bg-base-100 rounded-2xl shadow">
           <div className="stat-title">Lessons Approved Today</div>
-          <div className="stat-value text-success">{stats.approvedLessonsToday}</div>
+          <div className="stat-value text-success">
+            {stats.approvedLessonsToday}
+          </div>
           <div className="stat-desc">Activity snapshot for today</div>
         </div>
       </div>
@@ -113,16 +127,28 @@ const AdminProfile = () => {
       <div className="bg-base-100 rounded-2xl shadow p-6">
         <h2 className="text-xl font-bold mb-4">Quick Admin Actions</h2>
         <div className="flex flex-wrap gap-3">
-          <a href="/dashboard/admin/manage-users" className="btn btn-sm btn-primary">
+          <a
+            href="/dashboard/admin/manage-users"
+            className="btn btn-sm btn-primary"
+          >
             Manage Users
           </a>
-          <a href="/dashboard/admin/manage-lessons" className="btn btn-sm btn-secondary">
+          <a
+            href="/dashboard/admin/manage-lessons"
+            className="btn btn-sm btn-secondary"
+          >
             Manage Lessons
           </a>
-          <a href="/dashboard/admin/reported-lessons" className="btn btn-sm btn-error">
+          <a
+            href="/dashboard/admin/reported-lessons"
+            className="btn btn-sm btn-error"
+          >
             Review Reports
           </a>
-          <a href="/dashboard/admin/lesson-requests" className="btn btn-sm btn-accent">
+          <a
+            href="/dashboard/admin/lesson-requests"
+            className="btn btn-sm btn-accent"
+          >
             Lesson Requests
           </a>
         </div>

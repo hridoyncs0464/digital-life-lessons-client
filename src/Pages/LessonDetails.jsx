@@ -66,7 +66,9 @@ const LessonDetails = () => {
     if (!lesson?._id) return;
     setCommentsLoading(true);
     try {
-      const res = await fetch(`http://localhost:3100/lessons/${_id}/comments`);
+      const res = await fetch(
+        `https://digital-life-lessons-server-omega.vercel.app/lessons/${_id}/comments`
+      );
       const data = await res.json();
       setComments(data.comments || []);
     } catch (error) {
@@ -82,17 +84,20 @@ const LessonDetails = () => {
 
     setPostingComment(true);
     try {
-      const res = await fetch(`http://localhost:3100/lessons/${_id}/comments`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user.uid,
-          userEmail: user.email,
-          userName: user.displayName || "Anonymous",
-          userPhoto: user.photoURL || "",
-          content: newComment,
-        }),
-      });
+      const res = await fetch(
+        `https://digital-life-lessons-server-omega.vercel.app/lessons/${_id}/comments`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: user.uid,
+            userEmail: user.email,
+            userName: user.displayName || "Anonymous",
+            userPhoto: user.photoURL || "",
+            content: newComment,
+          }),
+        }
+      );
 
       const data = await res.json();
       if (data.success) {
@@ -157,11 +162,14 @@ const LessonDetails = () => {
       return;
     }
 
-    const res = await fetch(`http://localhost:3100/lessons/${_id}/like`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: user.uid }),
-    });
+    const res = await fetch(
+      `https://digital-life-lessons-server-omega.vercel.app/lessons/${_id}/like`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.uid }),
+      }
+    );
 
     const data = await res.json();
     if (data.success) {
@@ -176,11 +184,14 @@ const LessonDetails = () => {
       return;
     }
 
-    const res = await fetch(`http://localhost:3100/lessons/${_id}/favorite`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: user.uid }),
-    });
+    const res = await fetch(
+      `https://digital-life-lessons-server-omega.vercel.app/lessons/${_id}/favorite`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.uid }),
+      }
+    );
 
     const data = await res.json();
     if (data.success) {
@@ -204,11 +215,14 @@ const LessonDetails = () => {
       showCancelButton: true,
     }).then(async (result) => {
       if (result.isConfirmed && user) {
-        await fetch(`http://localhost:3100/lessons/${_id}/report`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: user.uid, reason: result.value }),
-        });
+        await fetch(
+          `https://digital-life-lessons-server-omega.vercel.app/lessons/${_id}/report`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId: user.uid, reason: result.value }),
+          }
+        );
         Swal.fire("Reported", "Lesson has been reported.", "success");
       }
     });
@@ -310,7 +324,9 @@ const LessonDetails = () => {
 
             {/* Meta chips */}
             <div className="mt-6 flex flex-wrap gap-2 text-xs">
-              <span className="badge badge-outline badge-sm">Category: {category}</span>
+              <span className="badge badge-outline badge-sm">
+                Category: {category}
+              </span>
               <span className="badge badge-outline badge-sm">Tone: {tone}</span>
               <span className="badge badge-outline badge-sm">
                 Visibility: {accessLevel === "premium" ? "Premium" : "Public"}
@@ -339,7 +355,10 @@ const LessonDetails = () => {
                 {favorited ? "Saved" : "Save"} ({favoritesCount})
               </button>
 
-              <button onClick={handleReport} className="btn btn-sm btn-outline gap-2">
+              <button
+                onClick={handleReport}
+                className="btn btn-sm btn-outline gap-2"
+              >
                 <FaFlag />
                 Report
               </button>
@@ -350,11 +369,16 @@ const LessonDetails = () => {
                   <FaShareAlt />
                   Share
                 </label>
-                <ul className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-72 z-50 border border-gray-200" tabIndex={0}>
+                <ul
+                  className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-72 z-50 border border-gray-200"
+                  tabIndex={0}
+                >
                   <li>
                     <FacebookShareButton
                       url={shareUrl}
-                      quote={`${title} - ${shortDescription?.substring(0, 100) || ""}...`}
+                      quote={`${title} - ${
+                        shortDescription?.substring(0, 100) || ""
+                      }...`}
                       className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 transition-all w-full"
                     >
                       <FacebookIcon size={28} round />
@@ -386,7 +410,10 @@ const LessonDetails = () => {
                     <LinkedinShareButton
                       url={shareUrl}
                       title={title}
-                      summary={shortDescription?.substring(0, 200) || content?.substring(0, 200)}
+                      summary={
+                        shortDescription?.substring(0, 200) ||
+                        content?.substring(0, 200)
+                      }
                       source="Digital Life Lessons"
                       className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 transition-all w-full"
                     >
@@ -400,13 +427,33 @@ const LessonDetails = () => {
                       className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-all w-full justify-between"
                     >
                       <div className="flex items-center gap-3">
-                        <svg className="w-6 h-6 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        <svg
+                          className="w-6 h-6 opacity-70"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                          />
                         </svg>
                         <span className="font-medium">Copy Link</span>
                       </div>
-                      <svg className="w-4 h-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <svg
+                        className="w-4 h-4 opacity-50"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     </button>
                   </li>
@@ -420,100 +467,114 @@ const LessonDetails = () => {
             <h3 className="text-2xl font-bold mb-6 text-gray-800">
               💬 Comments ({comments.length})
             </h3>
-            
+
             {/* Comment Input - Only for logged-in users */}
-        
+
             {user && (
-  <div className="bg-purple-50 p-6 rounded-2xl border border-purple-200 mb-6">
-    <div className="flex gap-4 items-start">
-      <img
-        src={user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User") + "&background=6366f1&color=fff&size=48"}
-        alt={user.displayName}
-        className="w-12 h-12 rounded-full object-cover ring-2 ring-purple-200 mt-1 flex-shrink-0"
-        onError={(e) => {
-          e.target.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "User") + "&background=6366f1&color=fff&size=48";
-        }}
-      />
-      <div className="flex-1">
-        <textarea
-          ref={commentInputRef}
-          placeholder="Share your thoughts on this lesson..."
-          className="textarea textarea-bordered w-full h-20 focus:textarea-primary resize-none"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          disabled={postingComment}
-        />
-        <div className="flex justify-end mt-3">
-          <button
-            onClick={handlePostComment}
-            disabled={!newComment.trim() || postingComment}
-            className="btn btn-primary btn-sm"
-          >
-            {postingComment ? (
-              <span className="loading loading-spinner loading-xs" />
-            ) : (
-              "Post Comment"
+              <div className="bg-purple-50 p-6 rounded-2xl border border-purple-200 mb-6">
+                <div className="flex gap-4 items-start">
+                  <img
+                    src={
+                      user.photoURL ||
+                      "https://ui-avatars.com/api/?name=" +
+                        encodeURIComponent(user.displayName || "User") +
+                        "&background=6366f1&color=fff&size=48"
+                    }
+                    alt={user.displayName}
+                    className="w-12 h-12 rounded-full object-cover ring-2 ring-purple-200 mt-1 flex-shrink-0"
+                    onError={(e) => {
+                      e.target.src =
+                        "https://ui-avatars.com/api/?name=" +
+                        encodeURIComponent(user.displayName || "User") +
+                        "&background=6366f1&color=fff&size=48";
+                    }}
+                  />
+                  <div className="flex-1">
+                    <textarea
+                      ref={commentInputRef}
+                      placeholder="Share your thoughts on this lesson..."
+                      className="textarea textarea-bordered w-full h-20 focus:textarea-primary resize-none"
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      disabled={postingComment}
+                    />
+                    <div className="flex justify-end mt-3">
+                      <button
+                        onClick={handlePostComment}
+                        disabled={!newComment.trim() || postingComment}
+                        className="btn btn-primary btn-sm"
+                      >
+                        {postingComment ? (
+                          <span className="loading loading-spinner loading-xs" />
+                        ) : (
+                          "Post Comment"
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
 
             {/* Show login message if not logged in */}
             {!user && (
               <div className="text-center py-8 text-gray-500 bg-purple-50 rounded-xl p-6 mb-6">
-                🔐 <strong>Log in</strong> to post comments and join the conversation!
+                🔐 <strong>Log in</strong> to post comments and join the
+                conversation!
               </div>
             )}
 
-         
-<div className="space-y-4">
-  {commentsLoading ? (
-    <div className="flex justify-center py-12">
-      <span className="loading loading-spinner loading-lg" />
-    </div>
-  ) : comments.length > 0 ? (
-    comments.map((comment) => (
-      <div key={comment._id} className="bg-white p-5 rounded-xl border border-gray-100 hover:shadow-sm">
-        <div className="flex gap-3">
-          <img
-            src={
-              comment.userPhoto && comment.userPhoto !== ""
-                ? comment.userPhoto
-                : "https://ui-avatars.com/api/?name=" + encodeURIComponent(comment.userName) + "&background=6366f1&color=fff&size=40"
-            }
-            alt={comment.userName}
-            className="w-10 h-10 rounded-full object-cover ring ring-gray-200 flex-shrink-0"
-            onError={(e) => {
-              e.target.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(comment.userName) + "&background=6366f1&color=fff&size=40";
-            }}
-          />
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <h4 className="font-semibold text-gray-900 text-sm truncate">
-                {comment.userName}
-              </h4>
-              <span className="text-xs text-gray-500">
-                {new Date(comment.createdAt).toLocaleDateString()}
-              </span>
+            <div className="space-y-4">
+              {commentsLoading ? (
+                <div className="flex justify-center py-12">
+                  <span className="loading loading-spinner loading-lg" />
+                </div>
+              ) : comments.length > 0 ? (
+                comments.map((comment) => (
+                  <div
+                    key={comment._id}
+                    className="bg-white p-5 rounded-xl border border-gray-100 hover:shadow-sm"
+                  >
+                    <div className="flex gap-3">
+                      <img
+                        src={
+                          comment.userPhoto && comment.userPhoto !== ""
+                            ? comment.userPhoto
+                            : "https://ui-avatars.com/api/?name=" +
+                              encodeURIComponent(comment.userName) +
+                              "&background=6366f1&color=fff&size=40"
+                        }
+                        alt={comment.userName}
+                        className="w-10 h-10 rounded-full object-cover ring ring-gray-200 flex-shrink-0"
+                        onError={(e) => {
+                          e.target.src =
+                            "https://ui-avatars.com/api/?name=" +
+                            encodeURIComponent(comment.userName) +
+                            "&background=6366f1&color=fff&size=40";
+                        }}
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h4 className="font-semibold text-gray-900 text-sm truncate">
+                            {comment.userName}
+                          </h4>
+                          <span className="text-xs text-gray-500">
+                            {new Date(comment.createdAt).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <p className="text-gray-700 text-sm leading-relaxed">
+                          {comment.content}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : !commentsLoading ? (
+                <div className="text-center py-12 text-gray-500">
+                  {user ? "Be the first to comment!" : "No comments yet"}
+                </div>
+              ) : null}
             </div>
-            <p className="text-gray-700 text-sm leading-relaxed">
-              {comment.content}
-            </p>
-          </div>
-        </div>
-      </div>
-    ))
-  ) : !commentsLoading ? (
-    <div className="text-center py-12 text-gray-500">
-      {user ? "Be the first to comment!" : "No comments yet"}
-    </div>
-  ) : null}
-</div>
-
-
           </div>
         </div>
       </div>
@@ -522,5 +583,3 @@ const LessonDetails = () => {
 };
 
 export default LessonDetails;
-
-

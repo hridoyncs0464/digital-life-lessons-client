@@ -1,8 +1,3 @@
-
-
-
-
-
 import { useContext, useState } from "react";
 import { AuthContext } from "../../AuthContext/AuthContext";
 import Swal from "sweetalert2";
@@ -49,11 +44,14 @@ const AddLesson = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3100/lessons", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(lessonData),
-      });
+      const res = await fetch(
+        "https://digital-life-lessons-server-omega.vercel.app/lessons",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(lessonData),
+        }
+      );
 
       const data = await res.json();
 
@@ -169,14 +167,6 @@ const AddLesson = () => {
 
 export default AddLesson;
 
-
-
-
-
-
-
-
-
 // import { useContext, useState } from "react";
 // import { AuthContext } from "../../AuthContext/AuthContext";
 // import Swal from "sweetalert2";
@@ -217,7 +207,7 @@ export default AddLesson;
 
 //   //   try {
 //   //     const res = await fetch(
-//   //       "http://localhost:3100/lessons", // Updated URL
+//   //       "https://digital-life-lessons-server-omega.vercel.app/lessons", // Updated URL
 //   //       {
 //   //         method: "POST",
 //   //         headers: { "Content-Type": "application/json" },
@@ -263,7 +253,6 @@ export default AddLesson;
 //     return;
 //   }
 
-  
 //     if (roleLoading) {
 //       Swal.fire("Wait", "Checking your premium status...", "info");
 //       return;
@@ -285,7 +274,7 @@ export default AddLesson;
 //   };
 
 //   try {
-//     const res = await fetch("http://localhost:3100/lessons", {
+//     const res = await fetch("https://digital-life-lessons-server-omega.vercel.app/lessons", {
 //       method: "POST",
 //       headers: { "content-type": "application/json" },
 //       body: JSON.stringify(lessonData),

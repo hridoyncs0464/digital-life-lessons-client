@@ -23,7 +23,7 @@ const MyLessons = () => {
     }
 
     fetch(
-      `http://localhost:3100/my-lessons?email=${encodeURIComponent(
+      `https://digital-life-lessons-server-omega.vercel.app/my-lessons?email=${encodeURIComponent(
         user.email
       )}`
     )
@@ -35,39 +35,40 @@ const MyLessons = () => {
       .catch(() => setLoading(false));
   }, [user?.email]);
 
-const handleDelete = (id) => {
-  Swal.fire({
-    title: "Delete this lesson?",
-    text: "This action cannot be undone.",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Yes, delete it",
-  }).then((result) => {
-    if (!result.isConfirmed) return;
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Delete this lesson?",
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it",
+    }).then((result) => {
+      if (!result.isConfirmed) return;
 
-    fetch(`http://localhost:3100/lessons/${id}`, {
-      method: "DELETE",
-    })
-      .then(async (res) => {
-        const data = await res.json().catch(() => ({}));
-
-        if (!res.ok || data.success === false) {
-          throw new Error(data.message || `Status ${res.status}`);
+      fetch(
+        `https://digital-life-lessons-server-omega.vercel.app/lessons/${id}`,
+        {
+          method: "DELETE",
         }
+      )
+        .then(async (res) => {
+          const data = await res.json().catch(() => ({}));
 
-        setLessons((prev) =>
-          prev.filter((l) => l._id === undefined || l._id !== id)
-        );
+          if (!res.ok || data.success === false) {
+            throw new Error(data.message || `Status ${res.status}`);
+          }
 
-        Swal.fire("Deleted!", "Lesson removed.", "success");
-      })
-      .catch((err) => {
-        Swal.fire("Error", err.message || "Failed to delete lesson", "error");
-      });
-  });
-};
+          setLessons((prev) =>
+            prev.filter((l) => l._id === undefined || l._id !== id)
+          );
 
-
+          Swal.fire("Deleted!", "Lesson removed.", "success");
+        })
+        .catch((err) => {
+          Swal.fire("Error", err.message || "Failed to delete lesson", "error");
+        });
+    });
+  };
 
   const handleInlineChange = (id, field, value) => {
     setLessons((prev) =>
@@ -76,14 +77,17 @@ const handleDelete = (id) => {
   };
 
   const saveInlineChange = (lesson) => {
-    fetch(`http://localhost:3100/lessons/${lesson._id}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        visibility: lesson.visibility || "public",
-        accessLevel: lesson.accessLevel || "public",
-      }),
-    })
+    fetch(
+      `https://digital-life-lessons-server-omega.vercel.app/lessons/${lesson._id}`,
+      {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          visibility: lesson.visibility || "public",
+          accessLevel: lesson.accessLevel || "public",
+        }),
+      }
+    )
       .then((res) => res.json())
       .then(() => {
         Swal.fire("Updated", "Lesson settings updated", "success");
@@ -101,45 +105,43 @@ const handleDelete = (id) => {
     setEditingLesson((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleUpdateLesson = (e) => {
+    e.preventDefault();
+    if (!editingLesson) return;
 
-const handleUpdateLesson = (e) => {
-  e.preventDefault();
-  if (!editingLesson) return;
+    const payload = {
+      title: editingLesson.title,
+      category: editingLesson.category,
+      tone: editingLesson.tone,
+      content: editingLesson.content,
+      accessLevel: editingLesson.accessLevel,
+      visibility: editingLesson.visibility || "public",
+      featuredImage: editingLesson.featuredImage || "",
+    };
 
-  const payload = {
-    title: editingLesson.title,
-    category: editingLesson.category,
-    tone: editingLesson.tone,
-    content: editingLesson.content,
-    accessLevel: editingLesson.accessLevel,
-    visibility: editingLesson.visibility || "public",
-    featuredImage: editingLesson.featuredImage || "",
+    fetch(
+      `https://digital-life-lessons-server-omega.vercel.app/lessons/${editingLesson._id}`,
+      {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    )
+      .then((res) => res.json())
+      .then(() => {
+        // IMPORTANT: update local state here
+        setLessons((prev) =>
+          prev.map((l) =>
+            l._id === editingLesson._id ? { ...l, ...payload } : l
+          )
+        );
+        Swal.fire("Updated", "Lesson updated successfully", "success");
+        setEditingLesson(null);
+      })
+      .catch(() => {
+        Swal.fire("Error", "Failed to update lesson", "error");
+      });
   };
-
-  fetch(`http://localhost:3100/lessons/${editingLesson._id}`, {
-    method: "PATCH",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(payload),
-  })
-    .then((res) => res.json())
-    .then(() => {
-      // IMPORTANT: update local state here
-      setLessons((prev) =>
-        prev.map((l) =>
-          l._id === editingLesson._id ? { ...l, ...payload } : l
-        )
-      );
-      Swal.fire("Updated", "Lesson updated successfully", "success");
-      setEditingLesson(null);
-    })
-    .catch(() => {
-      Swal.fire("Error", "Failed to update lesson", "error");
-    });
-};
-
-
-
-
 
   if (loading) {
     return (
@@ -198,11 +200,7 @@ const handleUpdateLesson = (e) => {
                             );
                             return;
                           }
-                          handleInlineChange(
-                            lesson._id,
-                            "accessLevel",
-                            value
-                          );
+                          handleInlineChange(lesson._id, "accessLevel", value);
                           saveInlineChange({
                             ...lesson,
                             accessLevel: value,
@@ -221,11 +219,7 @@ const handleUpdateLesson = (e) => {
                         value={lesson.visibility || "public"}
                         onChange={(e) => {
                           const value = e.target.value;
-                          handleInlineChange(
-                            lesson._id,
-                            "visibility",
-                            value
-                          );
+                          handleInlineChange(lesson._id, "visibility", value);
                           saveInlineChange({
                             ...lesson,
                             visibility: value,
@@ -393,16 +387,3 @@ const handleUpdateLesson = (e) => {
 };
 
 export default MyLessons;
-
-
-
-
-
-
-
-
-
-
-
-
-

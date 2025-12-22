@@ -19,7 +19,7 @@ const MyFavorites = () => {
     }
 
     fetch(
-      `http://localhost:3100/my-favorites?userId=${encodeURIComponent(
+      `https://digital-life-lessons-server-omega.vercel.app/my-favorites?userId=${encodeURIComponent(
         user.uid
       )}`
     )
@@ -33,7 +33,7 @@ const MyFavorites = () => {
 
   const handleRemoveFavorite = (id) => {
     if (!user?.uid) return;
- 
+
     Swal.fire({
       title: "Remove from favorites?",
       text: "This lesson will be removed from your favorites.",
@@ -44,7 +44,7 @@ const MyFavorites = () => {
       if (!result.isConfirmed) return;
 
       const res = await fetch(
-        `http://localhost:3100/lessons/${id}/favorite`,
+        `https://digital-life-lessons-server-omega.vercel.app/lessons/${id}/favorite`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },

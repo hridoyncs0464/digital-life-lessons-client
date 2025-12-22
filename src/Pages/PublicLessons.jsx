@@ -10,14 +10,14 @@ const PublicLessons = () => {
   useTitle("Public Life Lessons");
 
   const { user } = useContext(AuthContext);
-  const { premium } = useRole();        // get premium ONCE here
+  const { premium } = useRole(); // get premium ONCE here
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3100/public-lessons")
-      .then(res => res.json())
-      .then(data => {
+    fetch("https://digital-life-lessons-server-omega.vercel.app/public-lessons")
+      .then((res) => res.json())
+      .then((data) => {
         setLessons(data);
         setLoading(false);
       })
@@ -44,11 +44,11 @@ const PublicLessons = () => {
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {lessons.map(lesson => (
+        {lessons.map((lesson) => (
           <LessonCard
             key={lesson._id}
             lesson={lesson}
-            isPremiumUser={!!premium}   // pass premium flag
+            isPremiumUser={!!premium} // pass premium flag
           />
         ))}
       </div>

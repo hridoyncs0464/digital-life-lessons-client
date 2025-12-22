@@ -14,11 +14,14 @@ const PaymentSuccess = () => {
 
     // For this assignment: trust Stripe redirect and just update premium by email
     if (user?.email && sessionId) {
-      fetch("http://localhost:3100/users/make-premium", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: user.email }),
-      })
+      fetch(
+        "https://digital-life-lessons-server-omega.vercel.app/users/make-premium",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: user.email }),
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {

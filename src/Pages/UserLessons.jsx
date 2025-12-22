@@ -13,7 +13,11 @@ const UserLessons = () => {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:3100/user-lessons/${encodeURIComponent(email)}`)
+      fetch(
+        `https://digital-life-lessons-server-omega.vercel.app/user-lessons/${encodeURIComponent(
+          email
+        )}`
+      )
         .then((res) => res.json())
         .then((data) => {
           setLessons(data);
@@ -27,7 +31,8 @@ const UserLessons = () => {
     }
   }, [email]);
 
-  if (loading) return (
+  if (loading)
+    return (
       <section className="min-h-[60vh] flex items-center justify-center">
         {/* <span className="loading loading-spinner loading-lg" /> */}
         <Loading></Loading>

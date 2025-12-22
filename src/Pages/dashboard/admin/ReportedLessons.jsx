@@ -15,7 +15,9 @@ const ReportedLessons = () => {
     if (!adminEmail) return;
 
     setLoading(true);
-    fetch(`http://localhost:3100/reported-lessons?email=${adminEmail}`)
+    fetch(
+      `https://digital-life-lessons-server-omega.vercel.app/reported-lessons?email=${adminEmail}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setReports(data || []);
@@ -59,7 +61,7 @@ const ReportedLessons = () => {
       return;
 
     fetch(
-      `http://localhost:3100/reported-lessons/${lessonId}?email=${encodeURIComponent(
+      `https://digital-life-lessons-server-omega.vercel.app/reported-lessons/${lessonId}?email=${encodeURIComponent(
         adminEmail
       )}`,
       {
@@ -77,7 +79,7 @@ const ReportedLessons = () => {
 
   const handleIgnoreSingleReport = (reportId) => {
     fetch(
-      `http://localhost:3100/reported-lessons/${reportId}?email=${encodeURIComponent(
+      `https://digital-life-lessons-server-omega.vercel.app/reported-lessons/${reportId}?email=${encodeURIComponent(
         adminEmail
       )}`,
       {
@@ -100,9 +102,7 @@ const ReportedLessons = () => {
     if (!related.length) return;
 
     if (
-      !window.confirm(
-        `Ignore all ${related.length} report(s) for this lesson?`
-      )
+      !window.confirm(`Ignore all ${related.length} report(s) for this lesson?`)
     )
       return;
 
@@ -117,12 +117,13 @@ const ReportedLessons = () => {
     return <p className="p-4">Admin email not found. Please log in again.</p>;
   }
 
-  if (loading) return (
-        <section className="min-h-[60vh] flex items-center justify-center">
-          {/* <span className="loading loading-spinner loading-lg" /> */}
-          <Loading></Loading>
-        </section>
-      );
+  if (loading)
+    return (
+      <section className="min-h-[60vh] flex items-center justify-center">
+        {/* <span className="loading loading-spinner loading-lg" /> */}
+        <Loading></Loading>
+      </section>
+    );
 
   return (
     <section>
@@ -233,8 +234,7 @@ const ReportedLessons = () => {
                 >
                   <div>
                     <p className="text-sm font-medium">
-                      Reason:{" "}
-                      <span className="font-normal">{r.reason}</span>
+                      Reason: <span className="font-normal">{r.reason}</span>
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
                       Reporter UID: {r.reporterUserId}
@@ -288,9 +288,6 @@ const ReportedLessons = () => {
 
 export default ReportedLessons;
 
-
-
-
 // import React, { useEffect, useState } from "react";
 // import { toast } from "react-hot-toast";
 
@@ -300,7 +297,7 @@ export default ReportedLessons;
 
 //   // Fetch all reported lessons
 //   const fetchReports = () => {
-//     fetch("http://localhost:3100/reported-lessons") // Your backend endpoint for reported lessons
+//     fetch("https://digital-life-lessons-server-omega.vercel.app/reported-lessons") // Your backend endpoint for reported lessons
 //       .then((res) => res.json())
 //       .then((data) => {
 //         setReports(data);
@@ -320,7 +317,7 @@ export default ReportedLessons;
 //   const deleteLesson = (lessonId) => {
 //     if (!window.confirm("Are you sure you want to delete this lesson?")) return;
 
-//     fetch(`http://localhost:3100/lessons/${lessonId}`, {
+//     fetch(`https://digital-life-lessons-server-omega.vercel.app/lessons/${lessonId}`, {
 //       method: "DELETE",
 //     })
 //       .then((res) => res.json())
@@ -332,7 +329,7 @@ export default ReportedLessons;
 
 //   // Ignore report
 //   const ignoreReport = (reportId) => {
-//     fetch(`http://localhost:3100/reported-lessons/${reportId}`, {
+//     fetch(`https://digital-life-lessons-server-omega.vercel.app/reported-lessons/${reportId}`, {
 //       method: "PATCH",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify({ ignored: true }),

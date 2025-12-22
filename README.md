@@ -1,144 +1,202 @@
-# Utility Bill Management System
+🌱 Digital Life Lessons
 
-🎯 **Project Theme:**
-The Utility Bill Management System is a **MERN Stack-based web application** that allows users to view, manage, and pay monthly utility bills such as **Electricity, Gas, Water, and Internet**. Users can securely log in, pay only the current month bills, and update their bill information. The system also features **responsive UI, search/display functionalities, and PDF report download** for users’ paid bill history.
+🔗 Live Website: https://digital-life-lessons-5c16e.web.app
 
----
+🔗 Server API: https://digital-life-lessons-server-omega.vercel.app
+ 
 
-## 🔗 Live Website
+ Admin login email : admin1234@gmail.com
+ Admin login password : admin1234H
 
-https://payutilitybill.web.app/
+📘 Project Overview
 
----
+Digital Life Lessons is a full-stack web platform where users can create, store, and share meaningful life lessons, personal growth insights, and wisdom gained from real-life experiences.
 
-## 📌 Key Features
+The platform encourages mindful reflection, lifelong learning, and community-driven growth by allowing users to explore public lessons while securely managing private insights.
 
-* **User Authentication:** Register, login, and Google social login for secure access.
-* **Dynamic Bill Management:** View all bills, filter by category, and see detailed bill information.
-* **Pay Bills:** Users can pay only the bills of the current month via a modal form.
-* **My Paid Bills:** View all paid bills with options to update, delete, and download a PDF report.
-* **Responsive UI:** Works seamlessly across desktop, tablet, and mobile devices.
-* **Extra Features:** Loading spinners, toast notifications, dynamic titles, 404 page, and optional dark/light theme toggle.
+This project was developed as part of Programming Hero – Batch 12, Assignment 11 (Category 03).
 
----
+🎯 Key Features
 
-## 🏗️ Layout Structure
+🔐 Authentication System
 
-* **Navbar:**
+Email & password login
 
-  * Before Login: Logo | Home | Bills | Login | Register
-  * After Login: Logo | Home | Bills | My Pay Bills | Profile Avatar | Logout
+Google authentication
 
-* **Main Section:** Dynamic routing with React Router for different pages.
+Firebase-based secure authentication
 
-* **Footer:**
+🧠 Life Lesson Management
 
-  * Logo / Site Name
-  * Short Description
-  * Copyright
-  * Useful Links
+Create, update, delete personal life lessons
 
----
+Public and private visibility options
 
-## 🏠 Pages & Functionalities
+Free and Premium access level control
 
-### Home Page (Public)
+🌍 Public Lesson Browsing
 
-* Banner section with an image slider/carousel.
-* 4 category cards: Electricity, Gas, Water, Internet.
-* Recent 6 bills displayed dynamically from MongoDB.
-* Two additional meaningful sections for more information.
+Browse public life lessons without login
 
-### Authentication
+Filter by category and emotional tone
 
-* **Login Page:** Email, Password, Forget Password, and Social Google login.
-* **Registration Page:** Name, Email, Photo-URL, Password with validation (Uppercase, Lowercase, Minimum 6 characters).
+Search lessons by keyword
 
-### Bills Page (Public)
+Pagination for better performance
 
-* Display all bills in a 3-column grid.
-* Filter bills by category dynamically without page reload.
-* “See Details” button navigates to bill details page.
+⭐ Premium System
 
-### Bill Details Page (Private)
+Free vs Premium feature comparison
 
-* Shows title, category, location, description, image, amount, date.
-* **Pay Bill Button:** Enabled only for current month bills, opens a modal with pre-filled form.
+Stripe one-time payment (৳1500 lifetime access)
 
-### My Paid Bills Page (Private)
+Premium lessons locked/blurred for Free users
 
-* Displays bills paid by the logged-in user in a table.
-* Update and Delete functionalities with modals.
-* Download PDF report of paid bills with **total amount** summary.
+❤️ Engagement & Interaction
 
----
+Like lessons
 
-## ⚙️ Technologies Used
+Save lessons to favourites
 
-* **Frontend:** React.js, React Router, Tailwind CSS, DaisyUI, Axios
-* **Backend:** Node.js, Express.js
-* **Database:** MongoDB
-* **Authentication:** Firebase (Email & Google login)
-* **Extras:** jsPDF + jsPDF-AutoTable, Lottie React, React Awesome Reveal
+Comment on lessons
 
----
+Share lessons on social media
 
-## 📂 Database Structure (MongoDB)
+🛡️ Dashboard (User & Admin)
 
-### Bills Collection
+User dashboard: lesson stats, favourites, profile
 
-```json
-{
-  "title": "Frequent Power Outage in Mirpur",
-  "category": "Electricity",
-  "email": "creator@gmail.com",
-  "location": "Mirpur-10, Dhaka",
-  "description": "Power cuts occur daily in the evening.",
-  "image": "https://example.com/power.jpg",
-  "date": "2025-10-26",
-  "amount": 260
-}
-```
+Admin dashboard: manage users, lessons, reports
 
-### MyBills Collection
+Reported lesson moderation system
 
-```json
-{
-  "billsId": "abc123",
-  "username": "Mr. X",
-  "phone": "017XXXXXXX",
-  "address": "Dhaka",
-  "email": "mrx@gmail.com",
-  "amount": 260,
-  "date": "2025-10-26"
-}
-```
+📱 Responsive & Professional UI
 
----
+Fully responsive (mobile, tablet, desktop)
 
-## 💻 GitHub Commits
+Clean layout with consistent spacing and typography
 
-* **Client Side:** 15+ notable commits
-* **Server Side:** 8+ notable commits
+Modern UI built with Tailwind CSS & DaisyUI
 
----
+🧩 Pages & Routes
+Public Pages
 
-## 📌 Notes
+Home
 
-* No Lorem Ipsum text used anywhere.
-* All CRUD actions use toast notifications or SweetAlert for better UX.
-* Application hosted using **Netlify/Firebase (client)** and **Vercel (server)**.
+Login
 
----
+Register
 
-## ⚡ Resources & Inspiration
+Public Lessons
 
-* [UI & Components](https://uiverse.io/)
-* [Free Images & Resources](https://devmeetsdevs.com/)
-* [UX Design Inspiration](https://bootcamp.uxdesign.cc/free-images-and-resources-collection-for-website-c77f2fc46ce5)
-* [ThemeForest Templates](https://themeforest.net/)
-* [CodeCanyon Scripts](https://codecanyon.net/)
+404 Not Found
 
----
+Protected Pages
 
-**Made with ❤️ by [Hridoy]**
+Add Lesson
+
+My Lessons
+
+Update Lesson
+
+Lesson Details
+
+Favourites
+
+Pricing / Upgrade
+
+Dashboard (User)
+
+Dashboard (Admin)
+
+Payment Success & Cancel pages
+
+🛠️ Technology Stack (Frontend)
+
+React.js (Vite)
+
+React Router DOM
+
+Tailwind CSS
+
+DaisyUI
+
+Firebase Authentication
+
+Stripe Checkout (Frontend integration)
+
+Axios / Fetch API
+
+Lottie React
+
+React Hot Toast / SweetAlert
+
+🔐 Security & Best Practices
+
+Environment variables used for:
+
+Firebase configuration
+
+API base URLs
+
+No secret keys exposed on client side
+
+Protected routes using authentication guards
+
+Reload-safe routing (no private route crashes)
+
+No Lorem Ipsum text used
+
+No browser alert() used for messages
+
+🧪 Deployment & Compatibility
+
+Client deployed on Firebase Hosting
+
+Server deployed on Vercel
+
+CORS properly configured
+
+Reload-safe routing ensured
+
+Firebase domain added to authentication settings
+
+Logged-in users remain authenticated after reload
+
+📂 Assignment Information
+
+Assignment: B12-A11 Category-03
+
+Batch: Programming Hero – Batch 12
+
+Project Name: Digital Life Lessons
+
+Developer: Hridoy
+
+✅ Submission Checklist
+
+✔ Client-side GitHub repository (20+ meaningful commits)
+
+✔ Server-side GitHub repository (12+ meaningful commits)
+
+✔ Live website link
+
+✔ Secure environment variables
+
+✔ Professional & unique UI
+
+✔ No CORS / 404 / reload issues
+
+🚀 Future Improvements (Optional)
+
+Dark / Light theme toggle
+
+Export lessons as PDF
+
+Advanced analytics charts
+
+Email notifications
+
+More social sharing options
+
+🌟 “Learning from life is the most powerful form of education.”

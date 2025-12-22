@@ -10,30 +10,34 @@ const LessonRequests = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    fetch(`http://localhost:3100/admin/lesson-requests?email=${user.email}`)
-      .then(res => res.json())
-      .then(data => {
+    fetch(
+      `https://digital-life-lessons-server-omega.vercel.app/admin/lesson-requests?email=${user.email}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
         setRequests(data);
         setLoading(false);
       });
   }, [user]);
 
   const handleApprove = (id) => {
-    fetch(`http://localhost:3100/admin/approve-lesson/${id}?email=${user.email}`, {
-      method: "PATCH",
-    })
-      .then(res => res.json())
+    fetch(
+      `https://digital-life-lessons-server-omega.vercel.app/admin/approve-lesson/${id}?email=${user.email}`,
+      {
+        method: "PATCH",
+      }
+    )
+      .then((res) => res.json())
       .then(() => {
-        setRequests(prev => prev.filter(item => item._id !== id));
+        setRequests((prev) => prev.filter((item) => item._id !== id));
       });
   };
 
-  if (loading) (
-      <section className="min-h-[60vh] flex items-center justify-center">
-        {/* <span className="loading loading-spinner loading-lg" /> */}
-        <Loading></Loading>
-      </section>
-    );
+  if (loading)
+    <section className="min-h-[60vh] flex items-center justify-center">
+      {/* <span className="loading loading-spinner loading-lg" /> */}
+      <Loading></Loading>
+    </section>;
 
   return (
     <div>
@@ -52,7 +56,7 @@ const LessonRequests = () => {
               </tr>
             </thead>
             <tbody>
-              {requests.map(req => (
+              {requests.map((req) => (
                 <tr key={req._id}>
                   <td>{req.authorEmail}</td>
                   <td>{req.title}</td>

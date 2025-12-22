@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "payutilitybill"
-  }
+    "default": "payutilitybill",
+    "prod": "digital-life-lessons-5c16e"
+  },
+  "targets": {},
+  "etags": {}
 }
