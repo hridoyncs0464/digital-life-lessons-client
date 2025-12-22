@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useAuth from "../../AuthContext/useAuth";
+import Loading from "../../Components/Loading";
 
 const LessonRequests = () => {
   const { user } = useAuth();
@@ -27,7 +28,12 @@ const LessonRequests = () => {
       });
   };
 
-  if (loading) return <p>Loading lesson requests...</p>;
+  if (loading) (
+      <section className="min-h-[60vh] flex items-center justify-center">
+        {/* <span className="loading loading-spinner loading-lg" /> */}
+        <Loading></Loading>
+      </section>
+    );
 
   return (
     <div>

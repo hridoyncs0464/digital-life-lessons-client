@@ -1,9 +1,12 @@
 import { use } from "react";
 import LessonCard from "./LessonCard";
 import { Link } from "react-router";
+import useRole from "../hooks/useRole";
+// import useRole from "../hooks/useRole";
 
-const FeaturedLessons = ({ lessonsPromise, currentUser }) => {
+const FeaturedLessons = ({ lessonsPromise }) => {
   const lessons = use(lessonsPromise);
+  const { premium } = useRole();
 
   return (
     <section className="py-16">
@@ -21,7 +24,7 @@ const FeaturedLessons = ({ lessonsPromise, currentUser }) => {
             <LessonCard
               key={lesson._id}
               lesson={lesson}
-              currentUser={currentUser}
+              isPremiumUser={!!premium}
             />
           ))}
         </div>

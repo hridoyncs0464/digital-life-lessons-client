@@ -3,9 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import useTitle from "../../Components/usetTitle";
 import { AuthContext } from "../../AuthContext/AuthContext";
 import useRole from "../../hooks/useRole";
-// import { AuthContext } from "../../AuthContext/AuthContext";
-// import useRole from "../../hooks/useRole";
-// import useTitle from "../../Components/usetTitle";
+import Loading from "../../Components/Loading";
+
 
 const Profile = () => {
   useTitle("My Profile | Dashboard");
@@ -13,38 +12,51 @@ const Profile = () => {
   const { role, premium, roleLoading } = useRole();
   const [stats, setStats] = useState({ lessons: 0, favorites: 0, loading: true });
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      if (!user?.email) return;
+useEffect(() => {
+  const fetchStats = async () => {
+    if (!user?.email || !user?.uid) {
+      setStats({ lessons: 0, favorites: 0, loading: false });
+      return;
+    }
 
-      try {
-        // Optional: adjust when you create real stats endpoints
-        const [lessonsRes, favRes] = await Promise.all([
-          fetch(`http://localhost:3100/public-lessons?authorEmail=${user.email}`),
-          fetch(`http://localhost:3100/public-lessons?favoriteOf=${user.email}`)
-        ]);
+    try {
+      const [lessonsRes, favRes] = await Promise.all([
+        fetch(
+          `http://localhost:3100/stats/my-lessons-count?email=${encodeURIComponent(
+            user.email
+          )}`
+        ),
+        fetch(
+          `http://localhost:3100/stats/my-favorites-count?userId=${encodeURIComponent(
+            user.uid
+          )}`
+        ),
+      ]);
 
-        const lessonsData = await lessonsRes.json();
-        const favData = await favRes.json();
+      const lessonsData = await lessonsRes.json();
+      const favData = await favRes.json();
 
-        setStats({
-          lessons: Array.isArray(lessonsData) ? lessonsData.length : 0,
-          favorites: Array.isArray(favData) ? favData.length : 0,
-          loading: false,
-        });
-      } catch {
-        setStats({ lessons: 0, favorites: 0, loading: false });
-      }
-    };
+      setStats({
+        lessons: lessonsData.count || 0,
+        favorites: favData.count || 0,
+        loading: false,
+      });
+    } catch (err) {
+      setStats({ lessons: 0, favorites: 0, loading: false });
+    }
+  };
 
-    fetchStats();
-  }, [user]);
+  fetchStats();
+}, [user]);
+
+
 
   if (!user || roleLoading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
+      <section className="min-h-[60vh] flex items-center justify-center">
+        {/* <span className="loading loading-spinner loading-lg" /> */}
+        <Loading></Loading>
+      </section>
     );
   }
 

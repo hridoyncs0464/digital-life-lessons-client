@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import useTitle from '../Components/usetTitle';
 import useAuth from '../AuthContext/useAuth';
 import useRole from '../hooks/useRole';
+import Loading from '../Components/Loading';
 
 const Pricing = () => {
   useTitle('Pricing | Digital Life Lessons');
@@ -44,7 +45,12 @@ const Pricing = () => {
   };
 
   if (loading || roleLoading) {
-    return <div className="min-h-screen flex items-center justify-center"><span className="loading loading-spinner loading-lg"></span></div>;
+    return (
+          <section className="min-h-[60vh] flex items-center justify-center">
+            {/* <span className="loading loading-spinner loading-lg" /> */}
+            <Loading></Loading>
+          </section>
+        );
   }
 
   if (premium) {

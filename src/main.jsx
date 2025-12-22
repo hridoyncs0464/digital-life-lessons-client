@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
 
 import AuthProvider from "./AuthContext/AuthProvider";
-// import PrivateRoute from "./Router/PrivateRoute/PrivateRoute.jsx";
 import AdminRoute from "./Router/AdminRoute.jsx";
 import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
 import "./index.css";
@@ -35,15 +34,16 @@ import LessonRequests from "./Pages/dashboard/LessonRequests.jsx";
 import AdminProfile from "./Pages/dashboard/admin/AdminProfile.jsx";
 
 // Components
-import Loading from "./Components/Loding.jsx";
+import Loading from "./Components/Loading.jsx";
 import { Toaster } from "react-hot-toast";
 import PaymentSuccess from "./Pages/PaymentSuccess.jsx";
 import PaymentCancel from "./Pages/PaymentCancel.jsx";
+import MyFavorites from "./Pages/dashboard/MyFavorites.jsx";
+import TopContributors from "./Pages/TopContributors.jsx";
+import UserLessons from "./Pages/UserLessons.jsx";
 
 const router = createBrowserRouter([
-  // =======================
   // PUBLIC ROUTES
-  // =======================
   {
     path: "/",
     element: <MainLayout />,
@@ -62,12 +62,12 @@ const router = createBrowserRouter([
       { path: "/register", element: <Register /> },
       { path: "/payment/success", element: <PaymentSuccess /> },
       { path: "/payment/cancel", element: <PaymentCancel /> },
+      { path: "/top-contributors", element: <TopContributors /> },
+      { path: "/user-lessons/:email", element: <UserLessons /> },
     ],
   },
 
-  // =======================
   // DASHBOARD ROUTES (USER)
-  // =======================
   {
     path: "/dashboard",
     element: (
@@ -79,11 +79,10 @@ const router = createBrowserRouter([
       { index: true, element: <Profile /> },
       { path: "add-lesson", element: <AddLesson /> },
       { path: "my-lessons", element: <MyLessons /> },
+      { path: "my-favorites", element: <MyFavorites /> },
       { path: "profile", element: <Profile /> },
 
-      // =======================
       // ADMIN ROUTES
-      // =======================
       {
         path: "admin",
         element: (

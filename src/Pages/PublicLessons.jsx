@@ -1,13 +1,16 @@
 import { useEffect, useState, useContext } from "react";
 import useTitle from "../Components/usetTitle";
-import { AuthContext } from "../AuthContext/AuthContext";
+// import { AuthContext } from "../AuthContext/AuthContext";
 import LessonCard from "./LessonCard";
-// import LessonCard from "../Components/LessonCard";
+import useRole from "../hooks/useRole";
+import { AuthContext } from "../AuthContext/AuthContext";
+import Loading from "../Components/Loading";
 
 const PublicLessons = () => {
   useTitle("Public Life Lessons");
 
   const { user } = useContext(AuthContext);
+  const { premium } = useRole();        // get premium ONCE here
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -23,9 +26,10 @@ const PublicLessons = () => {
 
   if (loading) {
     return (
-      <div className="text-center py-20 text-xl font-semibold">
-        Loading public lessons...
-      </div>
+      <section className="min-h-[60vh] flex items-center justify-center">
+        {/* <span className="loading loading-spinner loading-lg" /> */}
+        <Loading></Loading>
+      </section>
     );
   }
 
@@ -44,7 +48,7 @@ const PublicLessons = () => {
           <LessonCard
             key={lesson._id}
             lesson={lesson}
-            currentUser={user}
+            isPremiumUser={!!premium}   // pass premium flag
           />
         ))}
       </div>
