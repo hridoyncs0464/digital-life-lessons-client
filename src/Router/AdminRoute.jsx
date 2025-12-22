@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from "react-router";
 import useRole from "../hooks/useRole";
 import useAuth from "../AuthContext/useAuth";
+import Loading from "../Components/Loading";
 
 const AdminRoute = ({ children }) => {
   const { user, loading: authLoading } = useAuth();
@@ -9,10 +10,11 @@ const AdminRoute = ({ children }) => {
 
   if (authLoading || roleLoading) {
     return (
-      <section className="min-h-screen flex items-center justify-center">
-        <span className="loading loading-spinner loading-lg" />
-      </section>
-    );
+          <section className="min-h-[60vh] flex items-center justify-center">
+            {/* <span className="loading loading-spinner loading-lg" /> */}
+            <Loading></Loading>
+          </section>
+        );
   }
 
   // not logged in

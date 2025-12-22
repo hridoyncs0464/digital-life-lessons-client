@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import useAuth from "../../../AuthContext/useAuth";
 import useRole from "../../../hooks/useRole";
-import Loading from "../../../Components/Loading";
 
 const AdminProfile = () => {
   const { user } = useAuth();
@@ -45,8 +44,7 @@ const AdminProfile = () => {
   if (loading) {
     return (
       <section className="min-h-[60vh] flex items-center justify-center">
-        {/* <span className="loading loading-spinner loading-lg" /> */}
-        <Loading></Loading>
+        <span className="loading loading-spinner loading-lg" />
       </section>
     );
   }

@@ -1,8 +1,5 @@
 
-
-
 import React, { useEffect, useState } from "react";
-// import { AuthContex } from "./AuthContex";
 import { auth } from "../Firebase/firebase.init";
 import {
   createUserWithEmailAndPassword,
@@ -35,10 +32,6 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-
-
-
-
   const signInWithGoogle = ()=>{
         setLoading(true);
 
@@ -66,14 +59,6 @@ useEffect(() => {
 
   return () => unsubscribe();
 }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-  //     setUser(currentUser);
-  //     setLoading(false);
-  //   });
-  //   return () => unsubscribe();
-  // }, []);
 
   const AuthInfo = {
     user,
