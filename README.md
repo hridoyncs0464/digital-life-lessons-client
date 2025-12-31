@@ -1,202 +1,142 @@
-🌱 Digital Life Lessons
+# 🌱 Digital Life Lessons
 
-🔗 Live Website: https://digital-life-lessons-5c16e.web.app
+![Project Banner](https://images.unsplash.com/photo-1591696205602-89a7e208bfa2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080)
 
-🔗 Server API: https://digital-life-lessons-server-omega.vercel.app
- 
+---
 
- Admin login email : admin1234@gmail.com
- Admin login password : admin1234H
+## 🔗 Live Links
 
-📘 Project Overview
+- **Live Website:** [https://digital-life-lessons-5c16e.web.app](https://digital-life-lessons-5c16e.web.app)  
+- **Server API:** [https://digital-life-lessons-server-omega.vercel.app](https://digital-life-lessons-server-omega.vercel.app)
 
-Digital Life Lessons is a full-stack web platform where users can create, store, and share meaningful life lessons, personal growth insights, and wisdom gained from real-life experiences.
+**Admin Login:**  
+- Email: `admin1234@gmail.com`  
+- Password: `admin1234H`
 
-The platform encourages mindful reflection, lifelong learning, and community-driven growth by allowing users to explore public lessons while securely managing private insights.
+---
 
-This project was developed as part of Programming Hero – Batch 12, Assignment 11 (Category 03).
+## 📘 Project Overview
 
-🎯 Key Features
+Digital Life Lessons is a **full-stack web platform** for users to create, store, and share meaningful life lessons, personal growth insights, and wisdom from real-life experiences.  
 
-🔐 Authentication System
+It encourages **mindful reflection, lifelong learning, and community-driven growth** by letting users explore public lessons while securely managing private insights.  
 
-Email & password login
+This project was developed as part of **Programming Hero – Batch 12, Assignment 11 (Category 03)**.
 
-Google authentication
+---
 
-Firebase-based secure authentication
+## 🎯 Key Features
 
-🧠 Life Lesson Management
+### 🔐 Authentication System
+- Email & password login  
+- Google authentication  
+- Firebase-based secure authentication  
 
-Create, update, delete personal life lessons
+### 🧠 Life Lesson Management
+- Create, update, delete personal life lessons  
+- Public and private visibility options  
+- Free and Premium access control  
 
-Public and private visibility options
+### 🌍 Public Lesson Browsing
+- Browse public lessons without login  
+- Filter by category and emotional tone  
+- Search lessons by keyword  
+- Pagination for performance  
 
-Free and Premium access level control
+### ⭐ Premium System
+- Free vs Premium feature comparison  
+- Stripe one-time payment (৳1500 lifetime access)  
+- Premium lessons blurred/locked for Free users  
 
-🌍 Public Lesson Browsing
+### ❤️ Engagement & Interaction
+- Like lessons  
+- Save lessons to favourites  
+- Comment on lessons  
+- Share lessons on social media  
 
-Browse public life lessons without login
+### 🛡️ Dashboard (User & Admin)
+- **User Dashboard:** lesson stats, favourites, profile  
+- **Admin Dashboard:** manage users, lessons, reports, moderation  
 
-Filter by category and emotional tone
+### 📱 Responsive & Professional UI
+- Mobile, tablet, and desktop ready  
+- Modern layout with Tailwind CSS & DaisyUI  
 
-Search lessons by keyword
+---
 
-Pagination for better performance
+## 🧩 Pages & Routes
 
-⭐ Premium System
+### Public Pages
+- Home  
+- Login  
+- Register  
+- Public Lessons  
+- 404 Not Found  
 
-Free vs Premium feature comparison
+### Protected Pages
+- Add Lesson  
+- My Lessons  
+- Update Lesson  
+- Lesson Details  
+- Favourites  
+- Pricing / Upgrade  
+- Dashboard (User & Admin)  
+- Payment Success & Cancel  
 
-Stripe one-time payment (৳1500 lifetime access)
+---
 
-Premium lessons locked/blurred for Free users
+## 🛠️ Technology Stack
 
-❤️ Engagement & Interaction
+**Frontend:** React.js (Vite), React Router DOM, Tailwind CSS, DaisyUI, Lottie React, Axios / Fetch API, React Hot Toast / SweetAlert  
+**Backend:** Node.js, Express.js, MongoDB, Firebase Admin SDK, Stripe Integration  
+**Authentication:** Firebase (Email & Google)  
+**Extras:** Dark/Light Theme Toggle, PDF Export, Pagination, Search/Filter/Sort  
 
-Like lessons
+---
 
-Save lessons to favourites
+## 🔐 Security & Best Practices
+- Environment variables for Firebase and API URLs  
+- Protected routes with authentication guards  
+- Reload-safe routing  
+- No Lorem Ipsum or browser alert() used  
 
-Comment on lessons
+---
 
-Share lessons on social media
+## 🏃‍♂️ How to Run Locally
 
-🛡️ Dashboard (User & Admin)
+### Client
+```bash
+# Clone the repository
+git clone https://github.com/username/B12-A11_Category-03.git
 
-User dashboard: lesson stats, favourites, profile
+# Navigate to client folder
+cd client
 
-Admin dashboard: manage users, lessons, reports
+# Install dependencies
+npm install
 
-Reported lesson moderation system
+# Create .env file with Firebase config & API base URL
+# Example:
+REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+REACT_APP_API_BASE_URL=http://localhost:5000
 
-📱 Responsive & Professional UI
+# Start client
+npm start
 
-Fully responsive (mobile, tablet, desktop)
+# Open in browser
+http://localhost:3000
+# Navigate to server folder
+cd server
 
-Clean layout with consistent spacing and typography
+# Install dependencies
+npm install
 
-Modern UI built with Tailwind CSS & DaisyUI
+# Create .env file with:
+# Example:
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
 
-🧩 Pages & Routes
-Public Pages
-
-Home
-
-Login
-
-Register
-
-Public Lessons
-
-404 Not Found
-
-Protected Pages
-
-Add Lesson
-
-My Lessons
-
-Update Lesson
-
-Lesson Details
-
-Favourites
-
-Pricing / Upgrade
-
-Dashboard (User)
-
-Dashboard (Admin)
-
-Payment Success & Cancel pages
-
-🛠️ Technology Stack (Frontend)
-
-React.js (Vite)
-
-React Router DOM
-
-Tailwind CSS
-
-DaisyUI
-
-Firebase Authentication
-
-Stripe Checkout (Frontend integration)
-
-Axios / Fetch API
-
-Lottie React
-
-React Hot Toast / SweetAlert
-
-🔐 Security & Best Practices
-
-Environment variables used for:
-
-Firebase configuration
-
-API base URLs
-
-No secret keys exposed on client side
-
-Protected routes using authentication guards
-
-Reload-safe routing (no private route crashes)
-
-No Lorem Ipsum text used
-
-No browser alert() used for messages
-
-🧪 Deployment & Compatibility
-
-Client deployed on Firebase Hosting
-
-Server deployed on Vercel
-
-CORS properly configured
-
-Reload-safe routing ensured
-
-Firebase domain added to authentication settings
-
-Logged-in users remain authenticated after reload
-
-📂 Assignment Information
-
-Assignment: B12-A11 Category-03
-
-Batch: Programming Hero – Batch 12
-
-Project Name: Digital Life Lessons
-
-Developer: Hridoy
-
-✅ Submission Checklist
-
-✔ Client-side GitHub repository (20+ meaningful commits)
-
-✔ Server-side GitHub repository (12+ meaningful commits)
-
-✔ Live website link
-
-✔ Secure environment variables
-
-✔ Professional & unique UI
-
-✔ No CORS / 404 / reload issues
-
-🚀 Future Improvements (Optional)
-
-Dark / Light theme toggle
-
-Export lessons as PDF
-
-Advanced analytics charts
-
-Email notifications
-
-More social sharing options
-
-🌟 “Learning from life is the most powerful form of education.”
+# Start server
+npm run dev
