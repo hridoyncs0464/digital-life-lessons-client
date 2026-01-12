@@ -119,7 +119,7 @@ const ManageUsers = () => {
   if (loading) {
     return (
       <section className="min-h-[60vh] flex items-center justify-center">
-        {/* <span className="loading loading-spinner loading-lg" /> */}
+        {/* <spang" /> */}
         <Loading></Loading>
       </section>
     );
