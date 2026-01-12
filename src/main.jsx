@@ -41,6 +41,12 @@ import PaymentCancel from "./Pages/PaymentCancel.jsx";
 import MyFavorites from "./Pages/dashboard/MyFavorites.jsx";
 import TopContributors from "./Pages/TopContributors.jsx";
 import UserLessons from "./Pages/UserLessons.jsx";
+import About from "./Pages/About.jsx";
+import Contact from "./Pages/Contact.jsx";
+import Help from "./Pages/Help.jsx";
+import Terms from "./Pages/Terms.jsx";
+import Refund from "./Pages/Refund.jsx";
+import Privacy from "./Pages/Privacy.jsx";
 
 const router = createBrowserRouter([
   // PUBLIC ROUTES
@@ -66,6 +72,30 @@ const router = createBrowserRouter([
       { path: "/payment/cancel", element: <PaymentCancel /> },
       { path: "/top-contributors", element: <TopContributors /> },
       { path: "/user-lessons/:email", element: <UserLessons /> },
+      {
+  path: "/about",
+  element: <About />,
+},
+{
+  path: "/contact",
+  element: <Contact />,
+},
+{
+  path: "/help",
+  element: <Help />,
+},
+{
+  path: "/terms",
+  element: <Terms />,
+},
+{
+  path: "/privacy",
+  element: <Privacy />,
+},
+{
+  path: "/refund",
+  element: <Refund />,
+},
     ],
   },
 

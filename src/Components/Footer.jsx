@@ -1,7 +1,12 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 
 const Footer = () => {
+
+const linkClass = ({ isActive }) =>
+    isActive ? "text-primary font-semibold" : "text-gray-500 hover:text-primary";
+
+
   return (
     <footer className="bg-base-200 text-base-content">
       <div className="max-w-7xl mx-auto p-10 grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -61,20 +66,16 @@ const Footer = () => {
           <h6 className="footer-title mb-2">Support</h6>
           <ul className="flex flex-col gap-1">
             <li>
-              <Link to="/about" className="link link-hover">
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link to="/faq" className="link link-hover">
-                Help & FAQ
-              </Link>
-            </li>
-            <li>
-              <Link to="/contact" className="link link-hover">
+              <NavLink to="/contact" className={linkClass}>
                 Contact
-              </Link>
+              </NavLink>
             </li>
+            <li>
+               <NavLink to="/help" className={linkClass}>
+                Help
+              </NavLink>
+            </li>
+           
           </ul>
         </nav>
 
@@ -83,22 +84,23 @@ const Footer = () => {
           <h6 className="footer-title mb-2">Legal</h6>
           <ul className="flex flex-col gap-1">
             <li>
-              <Link to="/terms" className="link link-hover">
+             <NavLink to="/terms" className={linkClass}>
                 Terms & Conditions
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/privacy" className="link link-hover">
+               <NavLink to="/privacy" className={linkClass}>
                 Privacy Policy
-              </Link>
+              </NavLink>
+            </li>
+             <li>
+              <NavLink to="/refund" className={linkClass}>
+                Refund Policy
+              </NavLink>
             </li>
           </ul>
 
-          <div className="flex gap-4 mt-4">
-            <a className="link link-hover">Facebook</a>
-            <a className="link link-hover">LinkedIn</a>
-            <a className="link link-hover">X</a>
-          </div>
+         
         </nav>
       </div>
 
