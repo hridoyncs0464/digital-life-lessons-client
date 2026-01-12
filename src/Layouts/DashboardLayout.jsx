@@ -31,7 +31,7 @@ const DashboardLayout = () => {
             </>
           )}
 
-          {/* ADMIN LINKS */}
+          {/* ADMIN  */}
          {role === "admin" && (
   <>
     <li><NavLink to="/dashboard/admin">Admin Dashboard</NavLink></li>

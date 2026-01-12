@@ -29,38 +29,68 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signOut(auth);
   };
-
-  const signInWithGoogle = () => {
+ const signInWithGoogle = () => {
     setLoading(true);
 
     return signInWithPopup(auth, googleProvider);
   };
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
+ useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    setUser(currentUser);
+    setLoading(false);
 
-      // CREATE LESSON USER IN DB
-      if (currentUser?.email) {
+    if (currentUser?.email) {
+      try {
         await fetch(
           "https://digital-life-lessons-server-omega.vercel.app/lesson-users",
           {
             method: "POST",
             headers: {
-              "content-type": "application/json",
+              "Content-Type": "application/json",
             },
+            credentials: "include",
             body: JSON.stringify({
               email: currentUser.email,
               name: currentUser.displayName || "Anonymous",
             }),
           }
         );
+      } catch (err) {
+        console.error("Lesson user sync failed:", err);
       }
-    });
+    }
+  });
 
-    return () => unsubscribe();
-  }, []);
+  return () => unsubscribe();
+}, []);
 
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+  //     setUser(currentUser);
+  //     setLoading(false);
+
+  //     // CREATE LESSON USER IN DB
+  //     if (currentUser?.email) {
+  //       await fetch(
+  //         "https://digital-life-lessons-server-omega.vercel.app/lesson-users",
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "content-type": "application/json",
+  //           },
+  //           body: JSON.stringify({
+  //             email: currentUser.email,
+  //             name: currentUser.displayName || "Anonymous",
+  //           }),
+  //         }
+  //       );
+  //     }
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
+  
   const AuthInfo = {
     user,
     loading,

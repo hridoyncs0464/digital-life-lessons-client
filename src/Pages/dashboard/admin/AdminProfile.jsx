@@ -16,7 +16,7 @@ const AdminProfile = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    // minimal admin stats using existing endpoints
+    //  admin stats using existing endpoints
     Promise.all([
       fetch(
         `https://digital-life-lessons-server-omega.vercel.app/admin/users?email=${user.email}`

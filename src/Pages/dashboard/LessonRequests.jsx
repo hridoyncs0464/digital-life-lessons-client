@@ -35,7 +35,7 @@ const LessonRequests = () => {
 
   if (loading)
     <section className="min-h-[60vh] flex items-center justify-center">
-      {/* <span className="loading loading-spinner loading-lg" /> */}
+      {/* <span className="loading - loading-lg" /> */}
       <Loading></Loading>
     </section>;
 
